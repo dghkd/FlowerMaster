@@ -43,10 +43,13 @@ namespace FlowerMaster
         static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+        [DllImport("user32.dll")]
+        public static extern bool PostMessage(IntPtr WindowHandle, uint Msg, IntPtr wParam, IntPtr lParam);
 
         public MainWindow()
         {
             InitializeComponent();
+
         }
 
         /// <summary>
@@ -318,7 +321,6 @@ namespace FlowerMaster
                 WinInetUtil.SetProxyInProcess(
                                     $"http=127.0.0.1:{DataUtil.Config.localProxyPort};"
                                     + $"https={DataUtil.Config.sysConfig.proxyServer}:{DataUtil.Config.sysConfig.proxyPort};"
-                                    + $"ftp={DataUtil.Config.sysConfig.proxyServer}:{DataUtil.Config.sysConfig.proxyPort};"
                                     , "local");
             }
         }
@@ -569,8 +571,8 @@ namespace FlowerMaster
             IntPtr wParam = IntPtr.Zero; // 附加的按键信息（如：Ctrl）
             const uint downCode = 0x201; // 鼠标左键按下
             const uint upCode = 0x202; // 鼠标左键抬起
-            SendMessage(webHandle, downCode, wParam, lParam); // 发送鼠标按键按下消息
-            SendMessage(webHandle, upCode, wParam, lParam); // 发送鼠标按键抬起消息
+            PostMessage(webHandle, downCode, wParam, lParam); // 发送鼠标按键按下消息
+            PostMessage(webHandle, upCode, wParam, lParam); // 发送鼠标按键抬起消息
         }
 
         /// <summary>
@@ -582,6 +584,7 @@ namespace FlowerMaster
             DataUtil.Config.sysConfig.gameServer = DataUtil.Game.gameServer;
             DataUtil.Config.sysConfig.gameHomePage = 1;
             mainWeb.Navigate(DataUtil.Game.gameUrl);
+            
         }
 
         /// <summary>
