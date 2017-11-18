@@ -979,5 +979,20 @@ namespace FlowerMaster
             GachaLogsWindow gachalogs = new GachaLogsWindow();
             gachalogs.Show();
         }
+
+        private void btnViewer_Click(object sender, RoutedEventArgs e)
+        {
+            grid1.Children.Remove(mainWeb);
+            BalconyGardenWindows blgWnd = new BalconyGardenWindows(mainWeb);
+            blgWnd.Closing += On_blgWnd_Closing;
+            blgWnd.Show();
+            this.Visibility = Visibility.Hidden;
+        }
+
+        void On_blgWnd_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            grid1.Children.Add(mainWeb);
+            this.Visibility = Visibility.Visible;
+        }
     }
 }
