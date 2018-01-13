@@ -49,7 +49,6 @@ namespace FlowerMaster
         public MainWindow()
         {
             InitializeComponent();
-
         }
 
         /// <summary>
@@ -177,6 +176,8 @@ namespace FlowerMaster
             {
                 stTime.Text = "服务器时间：" + DataUtil.Game.serverTime.ToString("yyyy-MM-dd HH:mm:ss");
             }));
+
+            UpdatePointRecoveryTime();
         }
 
         /// <summary>
@@ -287,6 +288,39 @@ namespace FlowerMaster
             menu.MenuItems.Add(closeItem);
 
             notifyIcon.ContextMenu = menu;
+        }
+
+        /// <summary>
+        /// 更新主界面回满时间数据
+        /// </summary>
+        public void UpdatePointRecoveryTime()
+        {
+            DateTime apTime = DataUtil.Game.player.apTime.AddSeconds(GameInfo.TIMEOUT_AP * (DataUtil.Game.player.maxAP - DataUtil.Game.player.oldAP));
+            DateTime bpTime = DataUtil.Game.player.bpTime.AddSeconds(GameInfo.TIMEOUT_BP * (DataUtil.Game.player.maxBP - DataUtil.Game.player.oldBP));
+            DateTime spTime = DataUtil.Game.player.spTime.AddSeconds(GameInfo.TIMEOUT_SP * (DataUtil.Game.player.maxSP - DataUtil.Game.player.oldSP));
+
+            TimeSpan apTimeSpan = apTime - DataUtil.Game.serverTime;
+            TimeSpan bpTimeSpan = bpTime - DataUtil.Game.serverTime;
+            TimeSpan spTimeSpan = spTime - DataUtil.Game.serverTime;
+            String plantTimeContent = "";
+            if (DataUtil.Game.player.plantTime.Year == 1)
+            {
+                plantTimeContent = "暂无";
+            }
+            else
+            {
+                TimeSpan plantTimeSpan = DataUtil.Game.player.plantTime- DataUtil.Game.serverTime;
+                plantTimeContent = DataUtil.Game.player.plantTime.ToString("MM-dd HH:mm:ss")
+                    + String.Format(" 還有 {0:00}時{1:00}分{2:00}秒", (int)plantTimeSpan.TotalHours, plantTimeSpan.Minutes, plantTimeSpan.Seconds);
+            }
+
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+                lbAPTime.Content = "体力回满时间：" + apTime.ToString("MM-dd HH:mm:ss") + String.Format(" 還有 {0:00}時{1:00}分{2:00}秒", (int)apTimeSpan.TotalHours, apTimeSpan.Minutes, apTimeSpan.Seconds);
+                lbBPTime.Content = "战点回满时间：" + bpTime.ToString("MM-dd HH:mm:ss") + String.Format(" 還有 {0:00}時{1:00}分{2:00}秒", (int)bpTimeSpan.TotalHours, bpTimeSpan.Minutes, bpTimeSpan.Seconds);
+                lbSPTime.Content = "探索回满时间：" + spTime.ToString("MM-dd HH:mm:ss") + String.Format(" 還有 {0:00}時{1:00}分{2:00}秒", (int)spTimeSpan.TotalHours, spTimeSpan.Minutes, spTimeSpan.Seconds);
+                lbPlantTime.Content = "花盆全满时间：" + plantTimeContent;
+            }));
         }
 
         /// <summary>

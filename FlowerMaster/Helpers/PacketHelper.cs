@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
 using zlib;
+using System.Diagnostics;
 
 namespace FlowerMaster.Helpers
 {
@@ -295,6 +296,8 @@ namespace FlowerMaster.Helpers
                     //其他不须解析的封包，只返回E_FAILED结果
                     else
                     {
+                        Debug.WriteLine(String.Format("[Process] Not Process:{0}", pack.funcApi));
+                        Debug.WriteLine(String.Format("[Process] Raw Data:{0}", pack.rawData));
                         return E_FAILED;
                     }
                 }
@@ -309,24 +312,6 @@ namespace FlowerMaster.Helpers
             {
                 return E_FALT_ERROR;
             }
-        }
-
-        /// <summary>
-        /// 更新主界面回满时间数据
-        /// </summary>
-        private static void UpdateTimeLeft()
-        {
-            DateTime apTime = DataUtil.Game.player.apTime.AddSeconds(GameInfo.TIMEOUT_AP * (DataUtil.Game.player.maxAP - DataUtil.Game.player.oldAP));
-            DateTime bpTime = DataUtil.Game.player.bpTime.AddSeconds(GameInfo.TIMEOUT_BP * (DataUtil.Game.player.maxBP - DataUtil.Game.player.oldBP));
-            DateTime spTime = DataUtil.Game.player.spTime.AddSeconds(GameInfo.TIMEOUT_SP * (DataUtil.Game.player.maxSP - DataUtil.Game.player.oldSP));
-
-            mainWindow.Dispatcher.Invoke(new Action(() =>
-            {
-                mainWindow.lbAPTime.Content = "体力回满时间：" + apTime.ToString("MM-dd HH:mm:ss");
-                mainWindow.lbBPTime.Content = "战点回满时间：" + bpTime.ToString("MM-dd HH:mm:ss");
-                mainWindow.lbSPTime.Content = "探索回满时间：" + spTime.ToString("MM-dd HH:mm:ss");
-                mainWindow.lbPlantTime.Content = DataUtil.Game.player.plantTime.Year == 1 ? "花盆全满时间：暂无" : "花盆全满时间：" + DataUtil.Game.player.plantTime.ToString("MM-dd HH:mm:ss");
-            }));
         }
 
         /// <summary>
@@ -407,7 +392,7 @@ namespace FlowerMaster.Helpers
             DataUtil.Game.notifyRecord.lastAP = DataUtil.Game.player.AP;
             DataUtil.Game.notifyRecord.lastBP = DataUtil.Game.player.BP;
             DataUtil.Game.notifyRecord.lastSP = DataUtil.Game.player.SP;
-            UpdateTimeLeft();
+            mainWindow.UpdatePointRecoveryTime();
             MiscHelper.AddLog("已经成功登录游戏", MiscHelper.LogType.System);
             return E_SUCCESS;
         }
@@ -467,7 +452,7 @@ namespace FlowerMaster.Helpers
                     if (DataUtil.Game.player.plantTime < pTime) DataUtil.Game.player.plantTime = pTime;
                 }
             }
-            UpdateTimeLeft();
+            mainWindow.UpdatePointRecoveryTime();
             return E_SUCCESS;
         }
 
@@ -513,7 +498,7 @@ namespace FlowerMaster.Helpers
                 log += "，体力" + ap.ToString();
             }
             DataUtil.Game.CalcPlayerGamePoint(GameInfo.PlayerPointType.AP, json["stamina"], json["staminaTime"]);
-            UpdateTimeLeft();
+            mainWindow.UpdatePointRecoveryTime();
             MiscHelper.AddLog(log, MiscHelper.LogType.Search);
             return E_SUCCESS;
         }
@@ -547,7 +532,7 @@ namespace FlowerMaster.Helpers
                         break;
                 }
             }
-            UpdateTimeLeft();
+            mainWindow.UpdatePointRecoveryTime();
             string log = string.Format("探索完成，获得体力{0:D}，金币{1:D}，种子{2:D}", ap, gold, gp);
             MiscHelper.AddLog(log, MiscHelper.LogType.Search);
             return E_SUCCESS;
@@ -583,7 +568,7 @@ namespace FlowerMaster.Helpers
         {
             JObject json = pack.data;
             DataUtil.Game.CalcPlayerGamePoint(GameInfo.PlayerPointType.BP, json["battlePoint"], json["battlePointTime"]);
-            UpdateTimeLeft();
+            mainWindow.UpdatePointRecoveryTime();
             MiscHelper.AddLog("首页BOSS战完成，剩余战点：" + DataUtil.Game.player.BP.ToString() , MiscHelper.LogType.Boss);
             return E_SUCCESS;
         }
@@ -668,7 +653,7 @@ namespace FlowerMaster.Helpers
                 }
                 catch { }
             }
-            UpdateTimeLeft();
+            mainWindow.UpdatePointRecoveryTime();
             MiscHelper.AddLog("成功进入" + dungeonType + "副本，剩余体力：" + DataUtil.Game.player.AP.ToString(), MiscHelper.LogType.Stage);
             DataUtil.Game.canAuto = true;
             MiscHelper.ShowMapInfoButton();
@@ -742,7 +727,7 @@ namespace FlowerMaster.Helpers
             DataUtil.Game.canAuto = false;
             MiscHelper.ShowMapInfoButton(false);
             MiscHelper.SetAutoGo(false);
-            UpdateTimeLeft();
+            mainWindow.UpdatePointRecoveryTime();
             return E_SUCCESS;
         }
 
@@ -792,7 +777,7 @@ namespace FlowerMaster.Helpers
             DataUtil.Game.canAuto = false;
             MiscHelper.ShowMapInfoButton(false);
             MiscHelper.SetAutoGo(false);
-            UpdateTimeLeft();
+            mainWindow.UpdatePointRecoveryTime();
             return E_SUCCESS;
         }
 
