@@ -127,12 +127,10 @@ namespace FlowerMaster
             if (BTN_Fix.IsChecked == true)
             {
                 this.ShowInTaskbar = false;
-                this.ResizeMode = ResizeMode.NoResize;
             }
             else
             {
                 this.ShowInTaskbar = true;
-                this.ResizeMode = ResizeMode.CanResizeWithGrip;
             }
         }
 

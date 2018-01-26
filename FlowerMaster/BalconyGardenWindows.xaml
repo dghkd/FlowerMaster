@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlowerMaster"
     mc:Ignorable="d"
-    
+    Icon="f23.ico"
     Title="花園觀景窗"
     Height="700" Width="900"
     WindowStartupLocation="CenterScreen"
