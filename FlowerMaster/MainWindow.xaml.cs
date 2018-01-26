@@ -1023,10 +1023,17 @@ namespace FlowerMaster
             this.Visibility = Visibility.Hidden;
         }
 
+        private void btnGirlNameList_Click(object sender, RoutedEventArgs e)
+        {
+            GirlsNamesListWindow nameListWnd = new GirlsNamesListWindow();
+            nameListWnd.Show();
+        }
+
         void On_blgWnd_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             grid1.Children.Add(mainWeb);
             this.Visibility = Visibility.Visible;
         }
+
     }
 }

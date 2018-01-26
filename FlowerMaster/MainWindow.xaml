@@ -673,6 +673,16 @@
                             Height="30"
                                     IsEnabled="False"
                             Content="本地缓存"/>
+                            
+                            <Button x:Name="btnGirlNameList"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Left"
+                                    Margin="195,335,0,0"
+                                    Width="75"
+                                    Height="30"
+                                    Content="花名冊"
+                                    Click="btnGirlNameList_Click"/>
+                            
                             <Label FontSize="16px"
                            FontWeight="Bold"
                            VerticalAlignment="Top"

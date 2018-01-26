@@ -1,0 +1,48 @@
+﻿<Controls:MetroWindow
+    x:Class="FlowerMaster.GirlsNamesListWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:FlowerMaster"
+    xmlns:uc="clr-namespace:FlowerMaster.UserControls"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    mc:Ignorable="d"
+    GlowBrush="{DynamicResource AccentColorBrush}"
+    Icon="f23.ico"
+    WindowStartupLocation="CenterScreen"
+    Title="花名冊"
+    Height="720" Width="1180">
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--搜尋參數面板-->
+        <uc:SearchParameterPanel x:Name="PANEL_SearchParam" Margin="5" Foreground="White"></uc:SearchParameterPanel>
+
+        <!--名冊顯示區-->
+        <ScrollViewer x:Name="SV_Scroller" Grid.Row="1"
+                      Margin="5"
+                      VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="PANEL_NamesList"
+                          ScrollViewer.CanContentScroll="True">
+                <!--替換容器排列面板-->
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"></WrapPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <!--替換資料物件顯示樣板-->
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <uc:NamesInfoControl Width="185" Margin="2" Foreground="White"></uc:NamesInfoControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Controls:MetroWindow>

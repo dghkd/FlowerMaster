@@ -7,12 +7,12 @@ using System.Windows;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("团长助理")]
-[assembly: AssemblyDescription("美少女花骑士专属浏览器。")]
+[assembly: AssemblyTitle("團長助理")]
+[assembly: AssemblyDescription("美少女花騎士專用瀏覽器")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("rensoft")]
-[assembly: AssemblyProduct("FlowerMaster")]
-[assembly: AssemblyCopyright("Copyright © 2016-2017 rensoft")]
+[assembly: AssemblyCompany("dghkd")]
+[assembly: AssemblyProduct("FlowerMaster Offshoot Creation")]
+[assembly: AssemblyCopyright("Copyright ©2017 dghkd.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
