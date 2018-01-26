@@ -10,7 +10,7 @@
     Title="花園觀景窗"
     Height="700" Width="900"
     WindowStartupLocation="CenterScreen"
-    Background="Transparent" AllowsTransparency="True" WindowStyle="None" ResizeMode="CanResizeWithGrip"
+    Background="Transparent" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize"
     Loaded="On_Window_Loaded"
     Closing="On_Window_Closing">
 
