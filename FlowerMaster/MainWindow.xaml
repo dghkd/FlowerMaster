@@ -32,7 +32,7 @@
                     VerticalAlignment="Stretch"
                     Margin="0,0,0,0"
                     SelectionChanged="mainTab_SelectionChanged">
-            <TabItem x:Name="tabItemGame" Header="主页">
+            <TabItem x:Name="tabItemGame" Header="主页" PreviewKeyDown="tabItemGame_PreviewKeyDown">
                 <Grid x:Name="grid1" Background="#FF0F0F0F">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -46,7 +46,8 @@
                                 Grid.Column="0"
                                 AllowDrop="False"
                                 LoadCompleted="mainWeb_LoadCompleted"
-                                Width="960"/>
+                                Width="960"
+                                PreviewKeyDown="mainWeb_PreviewKeyDown"/>
                     <Button x:Name="btnNews"
                             Grid.Column="1"
                             Height="38"

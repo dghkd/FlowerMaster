@@ -804,6 +804,24 @@ namespace FlowerMaster
             }
         }
 
+        private void mainWeb_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            //攔截tab鍵，避免網頁位移
+            if (e.Key == System.Windows.Input.Key.Tab)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void tabItemGame_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            //攔截tab鍵，避免視窗焦點位於主頁時，網頁直接接收tab鍵訊息造成網頁內容位移
+            if (e.Key == System.Windows.Input.Key.Tab)
+            {
+                e.Handled = true;
+            }
+        }
+
         private void btnMute_Click(object sender, RoutedEventArgs e)
         {
             MuteSound();
