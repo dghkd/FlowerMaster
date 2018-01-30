@@ -8,11 +8,11 @@ using System.Windows;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("團長助理")]
-[assembly: AssemblyDescription("美少女花騎士專用瀏覽器")]
+[assembly: AssemblyDescription("美少女花騎士專用瀏覽器 OC版")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("dghkd")]
 [assembly: AssemblyProduct("FlowerMaster Offshoot Creation")]
-[assembly: AssemblyCopyright("Copyright ©2017 dghkd.")]
+[assembly: AssemblyCopyright("Copyright ©2018 dghkd.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,5 +51,5 @@ using System.Windows;
 //可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值，
 // 方法是按如下所示使用“*”: :
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.4.7.0")]
-[assembly: AssemblyFileVersion("1.4.7.0")]
+[assembly: AssemblyVersion("1.4.8.0")]
+[assembly: AssemblyFileVersion("1.4.8.0")]
