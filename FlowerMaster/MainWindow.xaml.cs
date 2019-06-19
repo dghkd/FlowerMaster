@@ -1,20 +1,20 @@
-﻿using System;
+﻿using FlowerMaster.Helpers;
+using FlowerMaster.Models;
+using MahApps.Metro.Controls.Dialogs;
+using mshtml;
+using Nekoxy;
+using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
-using System.Drawing;
-using FlowerMaster.Helpers;
-using mshtml;
-using Nekoxy;
-using FlowerMaster.Models;
-using MahApps.Metro.Controls.Dialogs;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Navigation;
 
 namespace FlowerMaster
 {
@@ -38,11 +38,14 @@ namespace FlowerMaster
 
         //模拟鼠标操作相关API引入
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
-        static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+        private static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
         [DllImport("user32.dll", SetLastError = true)]
-        static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
+        private static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
+
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+        private static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+
         [DllImport("user32.dll")]
         public static extern bool PostMessage(IntPtr WindowHandle, uint Msg, IntPtr wParam, IntPtr lParam);
 
@@ -205,9 +208,11 @@ namespace FlowerMaster
                 case SysConfig.ProxySettingsType.DirectAccess:
                     rbNotUseProxy.IsChecked = true;
                     break;
+
                 case SysConfig.ProxySettingsType.UseSystemProxy:
                     rbUseIEProxy.IsChecked = true;
                     break;
+
                 case SysConfig.ProxySettingsType.UseUserProxy:
                     rbUseCusProxy.IsChecked = true;
                     break;
@@ -305,7 +310,7 @@ namespace FlowerMaster
             }
             else
             {
-                TimeSpan plantTimeSpan = DataUtil.Game.player.plantTime- DataUtil.Game.serverTime;
+                TimeSpan plantTimeSpan = DataUtil.Game.player.plantTime - DataUtil.Game.serverTime;
                 plantTimeContent = DataUtil.Game.player.plantTime.ToString("MM-dd HH:mm:ss")
                     + String.Format(" 還有 {0:00}時{1:00}分{2:00}秒", (int)plantTimeSpan.TotalHours, plantTimeSpan.Minutes, plantTimeSpan.Seconds);
             }
@@ -609,7 +614,6 @@ namespace FlowerMaster
             DataUtil.Config.sysConfig.gameServer = DataUtil.Game.gameServer;
             DataUtil.Config.sysConfig.gameHomePage = 1;
             mainWeb.Navigate(DataUtil.Game.gameUrl);
-            
         }
 
         /// <summary>
@@ -661,7 +665,7 @@ namespace FlowerMaster
         }
 
         private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        { 
+        {
             if (DataUtil.Config.sysConfig.exitConfirm && MessageBox.Show("是否确定要退出团长助理？", "退出确认", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
                 e.Cancel = true;
@@ -1023,11 +1027,10 @@ namespace FlowerMaster
             nameListWnd.Show();
         }
 
-        void On_blgWnd_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void On_blgWnd_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             grid1.Children.Add(mainWeb);
             this.Visibility = Visibility.Visible;
         }
-
     }
 }

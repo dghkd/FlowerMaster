@@ -3,7 +3,7 @@ using System;
 
 namespace FlowerMaster.Models
 {
-    interface IGameInfo
+    internal interface IGameInfo
     {
         int gameServer { set; get; }
         string gameUrl { get; }
@@ -14,7 +14,9 @@ namespace FlowerMaster.Models
         string gameNewsUrl { get; }
 
         void CalcPlayerMaxAPExp();
+
         void CalcPlayerGamePoint(GameInfo.PlayerPointType timeType, JToken newVal, JToken newTime);
+
         void InitDaliyInfo();
     }
 }

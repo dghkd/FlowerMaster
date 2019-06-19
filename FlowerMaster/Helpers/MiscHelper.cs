@@ -1,25 +1,25 @@
-﻿using System;
-using System.Windows.Documents;
-using System.Windows.Media;
-using System.Diagnostics;
+﻿using FlowerMaster.Models;
 using Microsoft.Win32;
-using System.IO;
-using System.Runtime.InteropServices;
 using mshtml;
+using Newtonsoft.Json.Linq;
 using SHDocVw;
+using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
-using FlowerMaster.Models;
-using Newtonsoft.Json.Linq;
-using System.Threading;
+using System.IO;
 using System.IO.Compression;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace FlowerMaster.Helpers
 {
     /// <summary>
     /// 通用静态函数库
     /// </summary>
-    class MiscHelper
+    internal class MiscHelper
     {
         [StructLayout(LayoutKind.Sequential)]
         internal class DVTARGETDEVICE
@@ -31,6 +31,7 @@ namespace FlowerMaster.Helpers
             public ushort tdPortNameOffset;
             public byte tdData;
         }
+
         [StructLayout(LayoutKind.Sequential)]
         internal class RECT
         {
@@ -89,7 +90,7 @@ namespace FlowerMaster.Helpers
         /// </summary>
         /// <param name="log">日志内容</param>
         /// <param name="type">日志类型</param>
-        public static void AddLog(string log, LogType type=LogType.Default)
+        public static void AddLog(string log, LogType type = LogType.Default)
         {
             System.Windows.Media.Color typeColor = Colors.White;
             switch (type)
@@ -97,25 +98,32 @@ namespace FlowerMaster.Helpers
                 case LogType.System:
                     typeColor = Colors.Bisque;
                     break;
+
                 case LogType.Search:
                     typeColor = Colors.Violet;
                     break;
+
                 case LogType.Stage:
                     typeColor = Colors.LightGreen;
                     break;
+
                 case LogType.Boss:
                     typeColor = Colors.LightCoral;
                     break;
+
                 case LogType.Gacha:
                 case LogType.Levelup:
                     typeColor = Colors.Yellow;
                     break;
+
                 case LogType.Sell:
                     typeColor = Colors.DarkOrange;
                     break;
+
                 case LogType.Mailbox:
                     typeColor = Colors.DeepSkyBlue;
                     break;
+
                 case LogType.Default:
                 default:
                     typeColor = Colors.White;
@@ -380,12 +388,15 @@ namespace FlowerMaster.Helpers
                     case "11":
                         setValue = 11001;
                         break;
+
                     case "10":
                         setValue = 10001;
                         break;
+
                     case "9":
                         setValue = 9999;
                         break;
+
                     case "8":
                         setValue = 8888;
                         break;
@@ -528,7 +539,7 @@ namespace FlowerMaster.Helpers
         /// 控制显示主窗口地图信息按钮
         /// </summary>
         /// <param name="show">是否显示，默认显示</param>
-        public static void ShowMapInfoButton(bool show=true)
+        public static void ShowMapInfoButton(bool show = true)
         {
             if (!main.Dispatcher.CheckAccess())
             {

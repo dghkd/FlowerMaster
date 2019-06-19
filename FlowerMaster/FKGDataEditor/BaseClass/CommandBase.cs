@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace FKGDataEditor
@@ -13,11 +9,14 @@ namespace FKGDataEditor
     public class CommandBase : ICommand
     {
         #region Private Fields
+
         private readonly Action<object> _command;
         private readonly Func<object, bool> _canExecute;
-        #endregion
+
+        #endregion Private Fields
 
         #region Constructor
+
         public CommandBase(Action<object> command, Func<object, bool> canExecute = null)
         {
             if (command == null)
@@ -25,9 +24,11 @@ namespace FKGDataEditor
             _canExecute = canExecute;
             _command = command;
         }
-        #endregion
+
+        #endregion Constructor
 
         #region ICommand Members
+
         public void Execute(object parameter)
         {
             _command(parameter);
@@ -45,6 +46,7 @@ namespace FKGDataEditor
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
-        #endregion
+
+        #endregion ICommand Members
     }
 }

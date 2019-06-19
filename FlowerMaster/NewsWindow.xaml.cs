@@ -1,10 +1,8 @@
-﻿using FlowerMaster.Helpers;
-using FlowerMaster.Models;
+﻿using FlowerMaster.Models;
 using SHDocVw;
 using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows;
 
 namespace FlowerMaster

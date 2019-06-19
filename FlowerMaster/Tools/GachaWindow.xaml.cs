@@ -1,17 +1,8 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace FlowerMaster
 {
@@ -44,7 +35,7 @@ namespace FlowerMaster
             p.Inlines.Add(head);
             p.LineHeight = 3;
 
-            for (int i=0; i<cnt; i++)
+            for (int i = 0; i < cnt; i++)
             {
                 int r = (gachaCount > 0 && gachaCount % 200 == fRare6) ? 0 : gacha.Next(200);
                 if (r == 0)
@@ -77,7 +68,7 @@ namespace FlowerMaster
             gachaLog.Document.Blocks.Add(p);
             gachaLog.ScrollToEnd();
             lbResult.Content = string.Format("总扭蛋次数：{0}，★6={1}({2}%)，★5={3}({4}%)，★4={5}({6}%)，★3={7}({8}%)",
-                gachaCount, 
+                gachaCount,
                 rare6, Math.Round((double)rare6 / gachaCount * 100, 2), rare5, Math.Round((double)rare5 / gachaCount * 100, 2),
                 rare4, Math.Round((double)rare4 / gachaCount * 100, 2), rare3, Math.Round((double)rare3 / gachaCount * 100, 2));
             lbStone.Content = "华灵石：" + stone.ToString();

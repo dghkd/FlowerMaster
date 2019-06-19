@@ -27,12 +27,12 @@ namespace FlowerMaster
                 string[] logInfo = files.Split('_');
                 if (logInfo.Count() < 4) continue;
                 string account = logInfo[0] + "-" + logInfo[1];
-                for (int i=2; i<logInfo.Count()-2; i++)
+                for (int i = 2; i < logInfo.Count() - 2; i++)
                 {
                     account += "_" + logInfo[i];
                 }
                 bool found = false;
-                for (int i=0; i<cbAccount.Items.Count; i++)
+                for (int i = 0; i < cbAccount.Items.Count; i++)
                 {
                     if (account == cbAccount.Items[i].ToString())
                     {
@@ -53,7 +53,7 @@ namespace FlowerMaster
             cbDate.Items.Clear();
             string[] info = account.Split('-');
             string file = info[0] + "_" + info[1];
-            for (int i=2; i<info.Count(); i++)
+            for (int i = 2; i < info.Count(); i++)
             {
                 file += "-" + info[i];
             }

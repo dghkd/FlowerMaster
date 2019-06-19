@@ -5,10 +5,10 @@ using System.Text;
 
 namespace FlowerMaster.Helpers
 {
-    class DESHelper
+    internal class DESHelper
     {
-        string key = "vW2-#$0&*G./3Kp;";
-        string iv = "^yA._@rSnB%)D+~F!9l";
+        private string key = "vW2-#$0&*G./3Kp;";
+        private string iv = "^yA._@rSnB%)D+~F!9l";
 
         public DESHelper()
         {

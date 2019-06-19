@@ -10,7 +10,7 @@ namespace FlowerMaster.Models
     /// <summary>
     /// 游戏信息类
     /// </summary>
-    class GameInfo : IGameInfo
+    internal class GameInfo : IGameInfo
     {
         /// <summary>
         /// 玩家信息结构体
@@ -38,6 +38,7 @@ namespace FlowerMaster.Models
             public string friendId;
             public DateTime plantTime;
         }
+
         /// <summary>
         /// 玩家信息
         /// </summary>
@@ -52,6 +53,7 @@ namespace FlowerMaster.Models
             public int lastBP;
             public int lastSP;
         }
+
         /// <summary>
         /// 提醒信息
         /// </summary>
@@ -74,6 +76,7 @@ namespace FlowerMaster.Models
             public string card4 { get; set; }
             public string card5 { get; set; }
         }
+
         /// <summary>
         /// 好友列表集合
         /// </summary>
@@ -93,6 +96,7 @@ namespace FlowerMaster.Models
             public int money { get; set; }
             public int gp { get; set; }
         }
+
         /// <summary>
         /// 怪物列表集合
         /// </summary>
@@ -148,8 +152,10 @@ namespace FlowerMaster.Models
 
         //用户点数据操作锁
         private object locker = new object();
+
         //低等级经验表
         private int[] expLow = { 15, 30, 160, 200, 230, 260, 290, 320, 350, 400, 450, 500, 600, 700, 900 };
+
         //高等级经验表
         private int[] expHigh = { 300, 500, 800, 1200, 1500, 2500, 3500, 5000, 7500, 10000, 15000, 20000 };
 
@@ -165,7 +171,7 @@ namespace FlowerMaster.Models
         private DateTime _serverTime;
         private ObservableCollection<DaliyInfo> _daliyInfo;
         private ObservableCollection<ExpTable> _expTable;
-        
+
         /// <summary>
         /// 初始化 FlowerMaster.Models.GameInfo 类的新实例。
         /// </summary>
@@ -314,6 +320,7 @@ namespace FlowerMaster.Models
                         player.AP = player.oldAP + (int)Math.Round(span.TotalSeconds) / TIMEOUT_AP;
                         if (player.AP > player.maxAP) player.AP = player.maxAP;
                         break;
+
                     case PlayerPointType.BP:
                         player.oldBP = int.Parse(newVal.ToString());
                         player.bpTime = Convert.ToDateTime(newTime.ToString());
@@ -321,6 +328,7 @@ namespace FlowerMaster.Models
                         player.BP = player.oldBP + (int)Math.Round(span.TotalSeconds) / TIMEOUT_BP;
                         if (player.BP > player.maxBP) player.BP = player.maxBP;
                         break;
+
                     case PlayerPointType.SP:
                         player.oldSP = int.Parse(newVal.ToString());
                         player.spTime = Convert.ToDateTime(newTime.ToString());
@@ -440,7 +448,8 @@ namespace FlowerMaster.Models
                         System.Xml.XmlElement ixe = inxf as System.Xml.XmlElement;
                         if (ixe.Name == "stage" && ixe.GetAttribute("name") != null && ixe.GetAttribute("name") != "")
                         {
-                            _expTable.Add(new ExpTable() {
+                            _expTable.Add(new ExpTable()
+                            {
                                 stage = ixe.GetAttribute("name"),
                                 ap = int.Parse(ixe.GetAttribute("ap")),
                                 exp = int.Parse(ixe.GetAttribute("exp")),

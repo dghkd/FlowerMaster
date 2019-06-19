@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.IO;
-using System.Drawing;
-using System.Diagnostics;
 
 namespace FKGDataEditor
 {
@@ -27,7 +23,7 @@ namespace FKGDataEditor
         public GirlInfoEnum.Types Type { get; set; }
         public GirlInfoEnum.Nationalities Nationality { get; set; }
         public String Note { get; set; }
-        
+
         public static String ImgToBase64(BitmapImage bmp)
         {
             byte[] bytes = null;
@@ -55,7 +51,6 @@ namespace FKGDataEditor
 
             return ret;
         }
-
 
         public static BitmapImage Base642Image(String strBase64)
         {
@@ -99,6 +94,5 @@ namespace FKGDataEditor
                 return null;
             }
         }
-        
     }
 }

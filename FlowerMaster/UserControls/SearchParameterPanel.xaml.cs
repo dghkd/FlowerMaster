@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using FKGDataEditor;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using FKGDataEditor;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace FlowerMaster.UserControls
 {
@@ -76,7 +65,6 @@ namespace FlowerMaster.UserControls
 
             //初始化搜尋參數
             this.Parameter = new SearchParameterVM();
-            
 
             this.DataContext = this.Parameter;
             this.Parameter.PropertyChanged += On_Parameter_PropertyChanged;

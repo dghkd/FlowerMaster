@@ -13,14 +13,14 @@
                       Title="游戏公告" Height="600" Width="900">
     <Grid x:Name="grid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="5"/>
-            <RowDefinition x:Name="webGridRow" Height="*"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="5" />
+            <RowDefinition x:Name="webGridRow" Height="*" />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition x:Name="webGridCol" Width="*"/>
-            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition x:Name="webGridCol" Width="*" />
+            <ColumnDefinition Width="5" />
         </Grid.ColumnDefinitions>
         <WebBrowser x:Name="newsWeb"
                     x:FieldModifier="public"
@@ -28,14 +28,13 @@
                     Grid.Column="1"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
-                    LoadCompleted="newsWeb_LoadCompleted"/>
+                    LoadCompleted="newsWeb_LoadCompleted" />
         <CheckBox x:Name="cbShowNews"
                   Grid.Row="2"
                   Grid.Column="1"
                   VerticalAlignment="Bottom"
                   Margin="5,0,0,5"
                   IsChecked="True"
-                  Content="登录游戏后显示公告"/>
-
+                  Content="登录游戏后显示公告" />
     </Grid>
 </Controls:MetroWindow>

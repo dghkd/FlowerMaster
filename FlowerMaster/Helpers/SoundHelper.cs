@@ -6,20 +6,23 @@ using Vannatech.CoreAudio.Interfaces;
 
 namespace FlowerMaster.Helpers
 {
-    class SoundHelper
+    internal class SoundHelper
     {
         /// <summary>
         /// 是否在静音状态
         /// </summary>
         public static bool isMute = false;
+
         /// <summary>
         /// 是否用户手动静音状态
         /// </summary>
         public static bool userMute = false;
+
         /// <summary>
         /// 是否已经初始化过
         /// </summary>
         private static bool _isInited = false;
+
         /// <summary>
         /// 音频管理变量
         /// </summary>
@@ -78,6 +81,5 @@ namespace FlowerMaster.Helpers
                 isMute = false;
             }
         }
-
     }
 }

@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FKGDataEditor
 {
     public class SearchParameterVM : ViewModelBase
     {
         #region Private Member
+
         private String _keyword;
         private GirlInfoEnum.Types _type;
         private GirlInfoEnum.Nationalities _nationality;
         private int _rare;
-        #endregion
 
+        #endregion Private Member
 
         #region Constructor
+
         public SearchParameterVM()
         {
             _keyword = "";
@@ -24,10 +22,11 @@ namespace FKGDataEditor
             _nationality = GirlInfoEnum.Nationalities.NotCare;
             _rare = 0;
         }
-        #endregion
 
+        #endregion Constructor
 
         #region Public Member
+
         public String Keyword
         {
             get { return _keyword; }
@@ -57,6 +56,7 @@ namespace FKGDataEditor
             String ret = String.Format("Keyword={0} Type={1} Nationality={2} Rare={3}", this.Keyword, this.Type, this.Nationality, this.Rare);
             return ret;
         }
-        #endregion
+
+        #endregion Public Member
     }
 }

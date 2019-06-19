@@ -7,7 +7,7 @@ namespace FlowerMaster.Models
     /// <summary>
     /// 角色信息类
     /// </summary>
-    class CardInfo
+    internal class CardInfo
     {
         /// <summary>
         /// 角色信息结构体
@@ -20,6 +20,7 @@ namespace FlowerMaster.Models
             public string type;
             public float rank;
         }
+
         /// <summary>
         /// 角色信息列表数组
         /// </summary>
@@ -32,7 +33,7 @@ namespace FlowerMaster.Models
         {
             _LoadCards();
         }
-        
+
         /// <summary>
         /// 加载角色信息文件到数组
         /// </summary>
@@ -108,7 +109,7 @@ namespace FlowerMaster.Models
             }
             return false;
         }
-        
+
         /// <summary>
         /// 获取角色名字
         /// </summary>

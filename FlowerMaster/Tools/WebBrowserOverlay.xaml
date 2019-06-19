@@ -8,6 +8,5 @@
         WindowStyle="None" ShowInTaskbar="False" ResizeMode="NoResize"
         Title="WebBrowserOverlay" Height="300" Width="300" Closing="On_Window_Closing">
     <Grid x:Name="GD_Root">
-        
     </Grid>
 </Window>

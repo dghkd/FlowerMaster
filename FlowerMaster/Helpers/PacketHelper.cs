@@ -5,17 +5,17 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using zlib;
-using System.Diagnostics;
 
 namespace FlowerMaster.Helpers
 {
     /// <summary>
     /// 游戏封包处理类
     /// </summary>
-    static class PacketHelper
+    internal static class PacketHelper
     {
         /// <summary>
         /// 封包数据结构体
@@ -34,9 +34,9 @@ namespace FlowerMaster.Helpers
         /// </summary>
         public static MainWindow mainWindow = null;
 
-        const int E_FALT_ERROR = -1; //操作异常
-        const int E_FAILED = 0; //操作失败
-        const int E_SUCCESS = 1; //操作成功
+        private const int E_FALT_ERROR = -1; //操作异常
+        private const int E_FAILED = 0; //操作失败
+        private const int E_SUCCESS = 1; //操作成功
 
         /// <summary>
         /// 处理封包入口函数
@@ -97,7 +97,14 @@ namespace FlowerMaster.Helpers
                 if ((DataUtil.Game.gameServer == (int)GameInfo.ServersList.Japan || DataUtil.Game.gameServer == (int)GameInfo.ServersList.JapanR18) &&
                     pack.rawData.Substring(0, 1) != "[" && pack.rawData.Substring(0, 1) != "{")
                 {
-                    pack.rawData = DecryptData(s.Response.Body);
+                    try
+                    {
+                        pack.rawData = DecryptData(s.Response.Body);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine(String.Format("[DecryptData] Exception:{0} funcAPI:{1}", e.Message, pack.funcApi));
+                    }
                 }
             }
             else if ((DataUtil.Game.gameServer == (int)GameInfo.ServersList.Japan || DataUtil.Game.gameServer == (int)GameInfo.ServersList.JapanR18)
@@ -120,7 +127,8 @@ namespace FlowerMaster.Helpers
                     JArray jsonArray = (JArray)JsonConvert.DeserializeObject(pack.rawData);
                     pack.data = (JObject)jsonArray[0];
                 }
-                else if (pack.rawData.Substring(0, 1) == "{")
+                else if (pack.rawData.Substring(0, 1) == "{"
+                    || pack.rawData.Substring(1, 1) == "{")
                 {
                     pack.data = (JObject)JsonConvert.DeserializeObject(pack.rawData);
                 }
@@ -148,6 +156,7 @@ namespace FlowerMaster.Helpers
         {
             try
             {
+                Debug.WriteLine("[Process] Start process:{0} data:{1}", pack.funcApi, pack.rawData);
                 //处理日服DMM用户信息-获取用户昵称
                 if ((DataUtil.Game.gameServer == (int)GameInfo.ServersList.Japan || DataUtil.Game.gameServer == (int)GameInfo.ServersList.JapanR18)
                     && pack.funcUrl.IndexOf("/social/") != -1)
@@ -412,7 +421,7 @@ namespace FlowerMaster.Helpers
                 GameInfo.FriendInfo f = new GameInfo.FriendInfo();
                 f.name = friend["userName"].ToString();
                 f.lv = int.Parse(friend["userLevelNum"].ToString());
-                f.card1 = string.Format("Lv.{0} {1}(技Lv{2})", friend["character1LevelNum"].ToString(), 
+                f.card1 = string.Format("Lv.{0} {1}(技Lv{2})", friend["character1LevelNum"].ToString(),
                     DataUtil.Cards.GetName(int.Parse(friend["character1Id"].ToString()), true, false), friend["character1SkillLevelNum"].ToString());
                 f.card2 = friend["character2Id"] != null ? string.Format("Lv.{0} {1}(技Lv{2})", friend["character2LevelNum"].ToString(),
                     DataUtil.Cards.GetName(int.Parse(friend["character2Id"].ToString()), true, false), friend["character2SkillLevelNum"].ToString()) : "";
@@ -527,9 +536,11 @@ namespace FlowerMaster.Helpers
                         DataUtil.Game.player.money += int.Parse(item["value"].ToString());
                         gold += int.Parse(item["value"].ToString());
                         break;
+
                     case "1002": //体力
                         ap += int.Parse(item["value"].ToString());
                         break;
+
                     case "3": //种子
                         gp += int.Parse(item["value"].ToString());
                         break;
@@ -572,7 +583,7 @@ namespace FlowerMaster.Helpers
             JObject json = pack.data;
             DataUtil.Game.CalcPlayerGamePoint(GameInfo.PlayerPointType.BP, json["battlePoint"], json["battlePointTime"]);
             mainWindow.UpdatePointRecoveryTime();
-            MiscHelper.AddLog("首页BOSS战完成，剩余战点：" + DataUtil.Game.player.BP.ToString() , MiscHelper.LogType.Boss);
+            MiscHelper.AddLog("首页BOSS战完成，剩余战点：" + DataUtil.Game.player.BP.ToString(), MiscHelper.LogType.Boss);
             return E_SUCCESS;
         }
 
@@ -627,9 +638,11 @@ namespace FlowerMaster.Helpers
                 case "/dungeon/saveEventStageStart":
                     dungeonType = "活动";
                     break;
+
                 case "/dungeon/saveEncounterStageStart":
                     dungeonType = "隐藏";
                     break;
+
                 case "/dungeon/saveWhaleStageStart":
                     dungeonType = "鲸鱼";
                     break;
@@ -681,9 +694,11 @@ namespace FlowerMaster.Helpers
                 case "/dungeon/saveEventStageSuccess":
                     dungeonType = "活动";
                     break;
+
                 case "/dungeon/saveEncounterStageSuccess":
                     dungeonType = "隐藏";
                     break;
+
                 case "/dungeon/saveWhaleStageSuccess":
                     dungeonType = "鲸鱼";
                     break;
@@ -751,9 +766,11 @@ namespace FlowerMaster.Helpers
                 case "/dungeon/saveEventStageFailed":
                     dungeonType = "活动";
                     break;
+
                 case "/dungeon/saveEncounterStageFailed":
                     dungeonType = "隐藏";
                     break;
+
                 case "/dungeon/saveWhaleStageFailed":
                     dungeonType = "鲸鱼";
                     break;
@@ -792,9 +809,11 @@ namespace FlowerMaster.Helpers
                 case "/dungeon/saveEventStageDestroyed":
                     dungeonType = "活动";
                     break;
+
                 case "/dungeon/saveEncounterStageDestroyed":
                     dungeonType = "隐藏";
                     break;
+
                 case "/dungeon/saveWhaleStageDestroyed":
                     dungeonType = "鲸鱼";
                     break;

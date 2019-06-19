@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Interop;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
+using System.Windows.Media;
 
 namespace FlowerMaster
 {
@@ -24,7 +15,7 @@ namespace FlowerMaster
     {
         #region Win32 Helper
 
-        static class Win32
+        private static class Win32
         {
             [StructLayout(LayoutKind.Sequential)]
             public struct POINT
@@ -37,6 +28,7 @@ namespace FlowerMaster
                     this.X = x;
                     this.Y = y;
                 }
+
                 public POINT(Point pt)
                 {
                     X = Convert.ToInt32(pt.X);
@@ -49,16 +41,16 @@ namespace FlowerMaster
 
             [DllImport("user32.dll")]
             internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
-
         };
-        #endregion
 
+        #endregion Win32 Helper
 
         #region Private Member
+
         private FrameworkElement _placementTarget;
         private WebBrowser _web;
-        #endregion
 
+        #endregion Private Member
 
         #region Constructor
 
@@ -67,11 +59,11 @@ namespace FlowerMaster
             InitializeComponent();
             _web = web;
             GD_Root.Children.Add(_web);
-            
+
             _placementTarget = placementTarget;
             Window owner = Window.GetWindow(placementTarget);
             Debug.Assert(owner != null);
-            
+
             //owner.SizeChanged += delegate { OnSizeLocationChanged(); };
             owner.LocationChanged += delegate { OnSizeLocationChanged(); };
             _placementTarget.SizeChanged += delegate { OnSizeLocationChanged(); };
@@ -94,8 +86,7 @@ namespace FlowerMaster
             }
         }
 
-        #endregion
-
+        #endregion Constructor
 
         #region Window Event
 
@@ -130,14 +121,15 @@ namespace FlowerMaster
         {
             GD_Root.Children.Remove(_web);
         }
-        #endregion
 
+        #endregion Window Event
 
         #region Private Method
+
         private void ResizeWebBrowser()
         {
-
         }
-        #endregion
+
+        #endregion Private Method
     }
 }

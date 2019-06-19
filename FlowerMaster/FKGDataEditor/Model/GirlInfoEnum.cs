@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 namespace FKGDataEditor
 {
-
     public class GirlInfoEnum
     {
         public enum Types
@@ -14,14 +11,17 @@ namespace FKGDataEditor
             /// 斬
             /// </summary>
             Slash,
+
             /// <summary>
             /// 打
             /// </summary>
             Blunt,
+
             /// <summary>
             /// 突
             /// </summary>
             Pierce,
+
             /// <summary>
             /// 魔
             /// </summary>
@@ -32,7 +32,6 @@ namespace FKGDataEditor
             /// </summary>
             NotCare,
         }
-
 
         public enum Nationalities
         {

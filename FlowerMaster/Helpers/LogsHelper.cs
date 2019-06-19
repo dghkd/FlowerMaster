@@ -8,7 +8,7 @@ namespace FlowerMaster.Helpers
     /// <summary>
     /// 日志记录辅助类
     /// </summary>
-    static class LogsHelper
+    internal static class LogsHelper
     {
         /// <summary>
         /// 检测日志目录是否存在，不存在就尝试创建
@@ -29,7 +29,7 @@ namespace FlowerMaster.Helpers
         /// <returns>可写入文件的玩家名字字符串</returns>
         public static string GetFilePlayerName()
         {
-            string[] notAllowed = {"?", ":", "*", "\\", "/", "\"", "<", ">", "|"};
+            string[] notAllowed = { "?", ":", "*", "\\", "/", "\"", "<", ">", "|" };
             string name = DataUtil.Game.player.name;
             foreach (string s in notAllowed)
             {
@@ -49,9 +49,11 @@ namespace FlowerMaster.Helpers
                 case (int)GameInfo.ServersList.American:
                 case (int)GameInfo.ServersList.AmericanR18:
                     return "美服";
+
                 case (int)GameInfo.ServersList.Japan:
                 case (int)GameInfo.ServersList.JapanR18:
                     return "日服";
+
                 default:
                     return "日服";
             }

@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FlowerMaster.Helpers;
+using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Interop;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-
-using MahApps.Metro.Controls.Dialogs;
-
-using FlowerMaster.Helpers;
 
 namespace FlowerMaster
 {
@@ -40,11 +27,11 @@ namespace FlowerMaster
             public int cy;
             public uint flags;
         }
-        
-        #endregion
 
+        #endregion Win32 Helper
 
         #region Private Member
+
         private WebBrowser _web;
         private WebBrowserOverlay _wnd;
 
@@ -53,8 +40,8 @@ namespace FlowerMaster
         /// <para>SNAP_DIST = 20</para>
         /// </summary>
         private readonly int SNAP_DIST = 20;
-        #endregion
 
+        #endregion Private Member
 
         #region Constructor
 
@@ -65,16 +52,15 @@ namespace FlowerMaster
             _web = web;
         }
 
-        #endregion
-
+        #endregion Constructor
 
         #region Window Event
-        
+
         private void On_Windows_SourceInitialized(object sender, EventArgs e)
         {
             WindowInteropHelper helper = new WindowInteropHelper(this);
             HwndSource source = HwndSource.FromHwnd(helper.Handle);
-            
+
             source.AddHook(WndProc);
         }
 
@@ -94,7 +80,7 @@ namespace FlowerMaster
             }
             return IntPtr.Zero;
         }
-        
+
         private void On_Window_Loaded(object sender, RoutedEventArgs e)
         {
             //在WPF中Webrowser無法在AllowsTransparency="True"的情況下正常顯示，因此放入另一個視窗中，以疊層方式顯示
@@ -117,8 +103,8 @@ namespace FlowerMaster
                 DragMove();
             }
         }
-        #endregion
 
+        #endregion Window Event
 
         #region Control Event
 
@@ -150,10 +136,11 @@ namespace FlowerMaster
         {
             this.Close();
         }
-        #endregion
 
+        #endregion Control Event
 
         #region Private Method
+
         private void ResizeWindow(WebBrowser web)
         {
             this.Width = web.Width;
@@ -190,11 +177,10 @@ namespace FlowerMaster
             {
                 wPos.y = Convert.ToInt32(screenBottom - this.Height);
             }
-            
+
             return wPos;
         }
 
-        #endregion
-
+        #endregion Private Method
     }
 }

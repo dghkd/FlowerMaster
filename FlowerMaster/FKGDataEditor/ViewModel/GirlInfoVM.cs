@@ -1,30 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using System.Windows.Media;
 using System.Diagnostics;
+using System.Windows.Media;
 
 namespace FKGDataEditor
 {
     public class GirlInfoVM : ViewModelBase
     {
         #region Private Member
-        private GirlInfo _info;
-        #endregion
 
+        private GirlInfo _info;
+
+        #endregion Private Member
 
         #region Constructor
+
         public GirlInfoVM(GirlInfo info)
         {
             _info = info;
         }
-        #endregion
 
+        #endregion Constructor
 
         #region Public Member
+
         public int ID
         {
             get { return _info.ID; }
@@ -80,16 +78,19 @@ namespace FKGDataEditor
             get { return _info.NamesCHT; }
             set { _info.NamesCHT = value; OnPropertyChanged("NamesCHT"); }
         }
+
         public String NamesCHS
         {
             get { return _info.NamesCHS; }
             set { _info.NamesCHS = value; OnPropertyChanged("NamesCHS"); }
         }
+
         public String NamesENU
         {
             get { return _info.NamesENU; }
             set { _info.NamesENU = value; OnPropertyChanged("NamesENU"); }
         }
+
         public int FKGID
         {
             get { return _info.FKGID; }
@@ -101,11 +102,13 @@ namespace FKGDataEditor
             get { return _info.Rare; }
             set { _info.Rare = value; OnPropertyChanged("Rare"); }
         }
+
         public GirlInfoEnum.Types Type
         {
             get { return _info.Type; }
             set { _info.Type = value; OnPropertyChanged("Type"); }
         }
+
         public GirlInfoEnum.Nationalities Nationality
         {
             get { return _info.Nationality; }
@@ -146,10 +149,9 @@ namespace FKGDataEditor
         public override string ToString()
         {
             return String.Format("{0} {1} {2}", this.NamesJPN, this.NamesENU, this.NamesCHT);
-
         }
-        #endregion
 
+        #endregion Public Member
 
         #region Command
 
@@ -166,6 +168,7 @@ namespace FKGDataEditor
                 return _cmdOpenWikiUrl_JPN ?? (_cmdOpenWikiUrl_JPN = new CommandBase(x => ExecuteCommand(CmdKey_OpenWikiUrl_JPN)));
             }
         }
+
         public CommandBase CmdOpenWikiUrl_ENU
         {
             get
@@ -198,14 +201,15 @@ namespace FKGDataEditor
             }
         }
 
-        #endregion
-
+        #endregion Command
 
         #region Public Method
+
         public GirlInfo GetDataInfo()
         {
             return _info;
         }
-        #endregion
+
+        #endregion Public Method
     }
 }

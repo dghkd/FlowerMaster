@@ -1,31 +1,39 @@
 ﻿<UserControl x:Class="FlowerMaster.UserControls.SearchParameterPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:FlowerMaster.UserControls"
              xmlns:fkgdata="clr-namespace:FKGDataEditor"
-             mc:Ignorable="d" 
-              d:DesignHeight="60" d:DesignWidth="700">
+             mc:Ignorable="d"
+             d:DesignHeight="60"
+             d:DesignWidth="700">
     <Grid>
         <Grid.Resources>
             <Style TargetType="TextBlock">
-                <Setter Property="Margin" Value="12,0,3,0"></Setter>
-                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                <Setter Property="Margin"
+                        Value="12,0,3,0"></Setter>
+                <Setter Property="VerticalAlignment"
+                        Value="Center"></Setter>
             </Style>
             <Style TargetType="ComboBox">
-                <Setter Property="VerticalAlignment" Value="Center"></Setter>
-                <Setter Property="Width" Value="120"></Setter>
+                <Setter Property="VerticalAlignment"
+                        Value="Center"></Setter>
+                <Setter Property="Width"
+                        Value="120"></Setter>
             </Style>
             <Style TargetType="TextBox">
-                <Setter Property="VerticalAlignment" Value="Center"></Setter>
-                <Setter Property="Width" Value="120"></Setter>
+                <Setter Property="VerticalAlignment"
+                        Value="Center"></Setter>
+                <Setter Property="Width"
+                        Value="120"></Setter>
             </Style>
         </Grid.Resources>
 
         <StackPanel Orientation="Horizontal">
             <!--種類-->
-            <TextBlock Text="種類:" Margin="0,0,3,0"></TextBlock>
+            <TextBlock Text="種類:"
+                       Margin="0,0,3,0"></TextBlock>
             <ComboBox x:Name="CMB_Type"
                       SelectedIndex="0"
                       SelectedItem="{Binding Type}">
@@ -33,20 +41,35 @@
                     <DataTemplate>
                         <TextBlock x:Name="TXT_Type"></TextBlock>
                         <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding}" Value="{x:Static fkgdata:GirlInfoEnum+Types.Slash}">
-                                <Setter TargetName="TXT_Type" Property="Text" Value="斬"></Setter>
+                            <DataTrigger Binding="{Binding}"
+                                         Value="{x:Static fkgdata:GirlInfoEnum+Types.Slash}">
+                                <Setter TargetName="TXT_Type"
+                                        Property="Text"
+                                        Value="斬"></Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding}" Value="{x:Static fkgdata:GirlInfoEnum+Types.Blunt}">
-                                <Setter TargetName="TXT_Type" Property="Text" Value="打"></Setter>
+                            <DataTrigger Binding="{Binding}"
+                                         Value="{x:Static fkgdata:GirlInfoEnum+Types.Blunt}">
+                                <Setter TargetName="TXT_Type"
+                                        Property="Text"
+                                        Value="打"></Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding}" Value="{x:Static fkgdata:GirlInfoEnum+Types.Pierce}">
-                                <Setter TargetName="TXT_Type" Property="Text" Value="突"></Setter>
+                            <DataTrigger Binding="{Binding}"
+                                         Value="{x:Static fkgdata:GirlInfoEnum+Types.Pierce}">
+                                <Setter TargetName="TXT_Type"
+                                        Property="Text"
+                                        Value="突"></Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding}" Value="{x:Static fkgdata:GirlInfoEnum+Types.Magic}">
-                                <Setter TargetName="TXT_Type" Property="Text" Value="魔"></Setter>
+                            <DataTrigger Binding="{Binding}"
+                                         Value="{x:Static fkgdata:GirlInfoEnum+Types.Magic}">
+                                <Setter TargetName="TXT_Type"
+                                        Property="Text"
+                                        Value="魔"></Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding}" Value="{x:Static fkgdata:GirlInfoEnum+Types.NotCare}">
-                                <Setter TargetName="TXT_Type" Property="Text" Value="不限"></Setter>
+                            <DataTrigger Binding="{Binding}"
+                                         Value="{x:Static fkgdata:GirlInfoEnum+Types.NotCare}">
+                                <Setter TargetName="TXT_Type"
+                                        Property="Text"
+                                        Value="不限"></Setter>
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
@@ -75,26 +98,47 @@
                     <DataTemplate>
                         <TextBlock x:Name="TXT_Nationality"></TextBlock>
                         <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding}" Value="{x:Static fkgdata:GirlInfoEnum+Nationalities.BlossomHill}">
-                                <Setter TargetName="TXT_Nationality" Property="Text" Value="ブロッサムヒル"></Setter>
+                            <DataTrigger Binding="{Binding}"
+                                         Value="{x:Static fkgdata:GirlInfoEnum+Nationalities.BlossomHill}">
+                                <Setter TargetName="TXT_Nationality"
+                                        Property="Text"
+                                        Value="ブロッサムヒル"></Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding}" Value="{x:Static fkgdata:GirlInfoEnum+Nationalities.LilyWood}">
-                                <Setter TargetName="TXT_Nationality" Property="Text" Value="リリーウッド"></Setter>
+                            <DataTrigger Binding="{Binding}"
+                                         Value="{x:Static fkgdata:GirlInfoEnum+Nationalities.LilyWood}">
+                                <Setter TargetName="TXT_Nationality"
+                                        Property="Text"
+                                        Value="リリーウッド"></Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding}" Value="{x:Static fkgdata:GirlInfoEnum+Nationalities.BananaOcean}">
-                                <Setter TargetName="TXT_Nationality" Property="Text" Value="バナナオーシャン"></Setter>
+                            <DataTrigger Binding="{Binding}"
+                                         Value="{x:Static fkgdata:GirlInfoEnum+Nationalities.BananaOcean}">
+                                <Setter TargetName="TXT_Nationality"
+                                        Property="Text"
+                                        Value="バナナオーシャン"></Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding}" Value="{x:Static fkgdata:GirlInfoEnum+Nationalities.BergamotValley}">
-                                <Setter TargetName="TXT_Nationality" Property="Text" Value="ベルガモットバレー"></Setter>
+                            <DataTrigger Binding="{Binding}"
+                                         Value="{x:Static fkgdata:GirlInfoEnum+Nationalities.BergamotValley}">
+                                <Setter TargetName="TXT_Nationality"
+                                        Property="Text"
+                                        Value="ベルガモットバレー"></Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding}" Value="{x:Static fkgdata:GirlInfoEnum+Nationalities.WinterRose}">
-                                <Setter TargetName="TXT_Nationality" Property="Text" Value="ウィンターローズ"></Setter>
+                            <DataTrigger Binding="{Binding}"
+                                         Value="{x:Static fkgdata:GirlInfoEnum+Nationalities.WinterRose}">
+                                <Setter TargetName="TXT_Nationality"
+                                        Property="Text"
+                                        Value="ウィンターローズ"></Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding}" Value="{x:Static fkgdata:GirlInfoEnum+Nationalities.LotusLake}">
-                                <Setter TargetName="TXT_Nationality" Property="Text" Value="ロータスレイク"></Setter>
+                            <DataTrigger Binding="{Binding}"
+                                         Value="{x:Static fkgdata:GirlInfoEnum+Nationalities.LotusLake}">
+                                <Setter TargetName="TXT_Nationality"
+                                        Property="Text"
+                                        Value="ロータスレイク"></Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding}" Value="{x:Static fkgdata:GirlInfoEnum+Nationalities.NotCare}">
-                                <Setter TargetName="TXT_Nationality" Property="Text" Value="不限"></Setter>
+                            <DataTrigger Binding="{Binding}"
+                                         Value="{x:Static fkgdata:GirlInfoEnum+Nationalities.NotCare}">
+                                <Setter TargetName="TXT_Nationality"
+                                        Property="Text"
+                                        Value="不限"></Setter>
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
@@ -104,7 +148,8 @@
             <!--關鍵字-->
             <TextBlock Text="關鍵字:"></TextBlock>
             <TextBox x:Name="TXTBOX_Keyword"
-                     Text="{Binding Keyword, UpdateSourceTrigger=LostFocus}" KeyUp="On_TXTBOX_Keyword_KeyUp">
+                     Text="{Binding Keyword, UpdateSourceTrigger=LostFocus}"
+                     KeyUp="On_TXTBOX_Keyword_KeyUp">
             </TextBox>
         </StackPanel>
     </Grid>

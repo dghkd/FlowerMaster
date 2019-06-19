@@ -12,7 +12,7 @@ namespace FlowerMaster.Models
     /// <summary>
     /// 系统配置类
     /// </summary>
-    class SysConfig
+    internal class SysConfig
     {
         /// <summary>
         /// 自动推图定时器触发时间间隔（毫秒）
@@ -28,14 +28,17 @@ namespace FlowerMaster.Models
             /// 显示游戏登录窗口
             /// </summary>
             public bool showLoginDialog;
+
             /// <summary>
             /// 显示游戏公告窗口
             /// </summary>
             public bool showLoginNews;
+
             /// <summary>
             /// 游戏服务器
             /// </summary>
             public int gameServer;
+
             /// <summary>
             /// 游戏加载页面
             /// </summary>
@@ -45,10 +48,12 @@ namespace FlowerMaster.Models
             /// 代理类型
             /// </summary>
             public ProxySettingsType proxyType;
+
             /// <summary>
             /// 代理服务器地址
             /// </summary>
             public string proxyServer;
+
             /// <summary>
             /// 代理服务器端口
             /// </summary>
@@ -58,30 +63,37 @@ namespace FlowerMaster.Models
             /// 体力回复到指定值提醒
             /// </summary>
             public short apTargetNotify;
+
             /// <summary>
             /// 体力回复满提醒
             /// </summary>
             public bool apFullNotify;
+
             /// <summary>
             /// 战点回复到指定值提醒
             /// </summary>
             public short bpTargetNotify;
+
             /// <summary>
             /// 战点回复满提醒
             /// </summary>
             public bool bpFullNotify;
+
             /// <summary>
             /// 探索点每回复一点提醒
             /// </summary>
             public bool spEveryNotify;
+
             /// <summary>
             /// 探索点回复满提醒
             /// </summary>
             public bool spFullNotify;
+
             /// <summary>
             /// 发现隐藏副本提醒
             /// </summary>
             public bool foundStageNotify;
+
             /// <summary>
             /// 发现主页BOSS提醒
             /// </summary>
@@ -91,6 +103,7 @@ namespace FlowerMaster.Models
             /// 记录游戏日志
             /// </summary>
             public bool logGame;
+
             /// <summary>
             /// 记录扭蛋日志
             /// </summary>
@@ -100,10 +113,12 @@ namespace FlowerMaster.Models
             /// 进图后自动推图
             /// </summary>
             public bool autoGoInMaps;
+
             /// <summary>
             /// 自动推图间隔时间
             /// </summary>
             private int _autoGoTimeout;
+
             /// <summary>
             /// 自动推图间隔时间
             /// </summary>
@@ -130,18 +145,22 @@ namespace FlowerMaster.Models
             /// 登录后标题栏显示角色名
             /// </summary>
             public bool changeTitle;
+
             /// <summary>
             /// 始终显示托盘图标
             /// </summary>
             public bool alwaysShowTray;
+
             /// <summary>
             /// 最小化到托盘
             /// </summary>
             public bool miniToTray;
+
             /// <summary>
             /// 最小化自动静音
             /// </summary>
             public bool miniToMute;
+
             /// <summary>
             /// 退出时弹出确认框
             /// </summary>
@@ -151,18 +170,22 @@ namespace FlowerMaster.Models
             /// 启用老板键
             /// </summary>
             public bool enableHotKey;
+
             /// <summary>
             /// 老板键Ctrl
             /// </summary>
             public bool hotKeyCtrl;
+
             /// <summary>
             /// 老板键Alt
             /// </summary>
             public bool hotKeyAlt;
+
             /// <summary>
             /// 老板键Shift
             /// </summary>
             public bool hotKeyShift;
+
             /// <summary>
             /// 老板键
             /// </summary>
@@ -177,15 +200,18 @@ namespace FlowerMaster.Models
             /// 用户抽取日服Flash样式
             /// </summary>
             public string userCSS;
+
             /// <summary>
             /// 用户抽取美服Flash样式
             /// </summary>
             public string userCSSAmerican;
         }
+
         /// <summary>
         /// 系统配置结构体
         /// </summary>
         public Config sysConfig;
+
         /// <summary>
         /// 账号列表结构体
         /// </summary>
@@ -195,35 +221,43 @@ namespace FlowerMaster.Models
             /// 账号用户名
             /// </summary>
             public string username;
+
             /// <summary>
             /// 账号密码
             /// </summary>
             public string password;
+
             /// <summary>
             /// 游戏服务器
             /// </summary>
             public int gameServer;
         }
+
         /// <summary>
         /// 保存的账号密码列表
         /// </summary>
         public List<AccountList> accountList = null;
+
         /// <summary>
         /// 当前登录的账号信息
         /// </summary>
         public AccountList currentAccount;
+
         /// <summary>
         /// 最后一次登录的游戏服务器
         /// </summary>
         public int LastLoginServer;
+
         /// <summary>
         /// 最后一次登录的账号用户名
         /// </summary>
         public string LastLoginAccount;
+
         /// <summary>
         /// 本地代理端口号
         /// </summary>
         public int localProxyPort;
+
         /// <summary>
         /// 代理类型枚举
         /// </summary>
@@ -233,15 +267,18 @@ namespace FlowerMaster.Models
             /// 不使用代理直接访问
             /// </summary>
             DirectAccess,
+
             /// <summary>
             /// 使用系统IE代理配置
             /// </summary>
             UseSystemProxy,
+
             /// <summary>
             /// 使用用户自定义代理配置
             /// </summary>
             UseUserProxy,
         }
+
         /// <summary>
         /// 截图文件格式
         /// </summary>
@@ -251,6 +288,7 @@ namespace FlowerMaster.Models
             /// PNG格式
             /// </summary>
             PNG,
+
             /// <summary>
             /// JPG格式
             /// </summary>
@@ -268,6 +306,7 @@ namespace FlowerMaster.Models
         public const string DefaultCSSJapan = "body {\r\n    margin:0;\r\n    overflow:hidden;\r\n}\r\n\r\n#game_frame {\r\n    position:fixe" +
                     "d;\r\n    left:50%;\r\n    top:0px;\r\n    margin-left:-480px;\r\n    z-index:10;\r\n}\r\n\r\n" +
                     ".area-pickupgame,\r\n.area-menu\r\n{\r\n    display:none!important;\r\n}";
+
         /// <summary>
         /// 默认抽取美服Flash的CSS样式
         /// </summary>
@@ -284,7 +323,7 @@ namespace FlowerMaster.Models
             localProxyPort = 30001;
             FindEmptyPort();
         }
-        
+
         /// <summary>
         /// 初始化默认设置
         /// </summary>
@@ -468,7 +507,7 @@ namespace FlowerMaster.Models
                     sysConfig.userCSSAmerican = xe.GetAttribute("CssStyle") != "" ? xe.GetAttribute("CssStyle") : DefaultCSSAmerican;
                 }
             }
-            catch{ }
+            catch { }
         }
 
         /// <summary>
@@ -748,7 +787,7 @@ namespace FlowerMaster.Models
             bool found = false;
             if (accountList != null)
             {
-                for (int i=0; i<accountList.Count; i++)
+                for (int i = 0; i < accountList.Count; i++)
                 {
                     if (accountList[i].username == acc.username && accountList[i].gameServer == acc.gameServer)
                     {
@@ -795,7 +834,7 @@ namespace FlowerMaster.Models
         {
             if (accountList == null || username.Trim() == "") return;
             DESHelper des = new DESHelper();
-            for (int i=0; i<accountList.Count; i++)
+            for (int i = 0; i < accountList.Count; i++)
             {
                 if (accountList[i].username == des.Encrypt(username))
                 {

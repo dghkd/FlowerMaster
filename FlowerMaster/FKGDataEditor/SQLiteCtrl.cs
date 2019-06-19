@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.IO;
-
 
 namespace FKGDataEditor
 {
     public class SQLiteCtrl
     {
         #region Define
+
         /// <summary>
         /// 資料庫檔案路徑
         /// <para>PATH_DB_FILE = "./GirlsDB.sqlite"</para>
         /// </summary>
         private const String PATH_DB_FILE = "./GirlsDB.sqlite";
+
         /// <summary>
         /// 資料表名稱:基本資料
         /// <para>TABLE_NAME_BASIC_INFO = "BasicInformation"</para>
@@ -26,6 +24,7 @@ namespace FKGDataEditor
 
         //---欄位名稱---
         private const String COLUMN_NAME_ID = "ID";
+
         private const String COLUMN_NAME_IMG_BASE64 = "ImgBase64";
         private const String COLUMN_NAME_NAMES = "Names";
         private const String COLUMN_NAME_NAMES_JPN = "NamesJPN";
@@ -38,11 +37,9 @@ namespace FKGDataEditor
         private const String COLUMN_NAME_NATIONALITY = "Nationality";
         private const String COLUMN_NAME_NOTE = "Note";
 
-
-        #endregion
+        #endregion Define
 
         private static readonly Lazy<SQLiteCtrl> _lazyInstance = new Lazy<SQLiteCtrl>(() => new SQLiteCtrl(), true);
-
 
         public static SQLiteCtrl Data
         {
@@ -53,14 +50,14 @@ namespace FKGDataEditor
         }
 
         #region Private Member
+
         private SQLiteConnection _dbConnection;
         private bool _isConnected = false;
-        #endregion
 
+        #endregion Private Member
 
         public SQLiteCtrl()
         {
-
         }
 
         #region Public Method
@@ -93,7 +90,6 @@ namespace FKGDataEditor
             }
             catch (Exception e)
             {
-
                 Debug.WriteLine(String.Format("[SQLiteCtrl] Open database fail:{0}", e.Message));
             }
 
@@ -105,7 +101,6 @@ namespace FKGDataEditor
 
             _isConnected = true;
         }
-
 
         public void InsertData(GirlInfo data)
         {
@@ -122,7 +117,7 @@ namespace FKGDataEditor
              * Rare,
              * Type,
              * Nationality
-             * ) VALUES ( 
+             * ) VALUES (
              * 1,
              * xxxxxxxxxxxxxxx...,
              * names,
@@ -254,13 +249,12 @@ namespace FKGDataEditor
                 }
                 catch (Exception e)
                 {
-
                 }
             }
             return ret;
         }
-        #endregion
 
+        #endregion Public Method
 
         #region Private Method
 
@@ -301,7 +295,6 @@ namespace FKGDataEditor
             {
                 cmd.ExecuteNonQuery();
             }
-
         }
 
         private void AddBasicInfoColumn()
@@ -327,7 +320,6 @@ namespace FKGDataEditor
                     }
                 }
             }
-
         }
 
         private static GirlInfo ParseData(SQLiteDataReader rdr)
@@ -351,6 +343,7 @@ namespace FKGDataEditor
             info.FKGID = variable;
             return info;
         }
-        #endregion
+
+        #endregion Private Method
     }
 }

@@ -1,21 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using FKGDataEditor;
 using MahApps.Metro.Controls;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Threading;
-using FKGDataEditor;
+using System.Threading.Tasks;
 
 namespace FlowerMaster
 {
@@ -28,11 +16,11 @@ namespace FlowerMaster
         /// 顯示資料集合
         /// </summary>
         private ObservableCollection<GirlInfoVM> _girlColle = new ObservableCollection<GirlInfoVM>();
+
         /// <summary>
         /// 取消資料集合更新用Token Source
         /// </summary>
         private CancellationTokenSource _cancelColleUpdateToken;
-
 
         public GirlsNamesListWindow()
         {
@@ -71,7 +59,6 @@ namespace FlowerMaster
                 UpdateGirlColle(searchRet);
             }
         }
-
 
         private void UpdateGirlColle(List<GirlInfo> list)
         {

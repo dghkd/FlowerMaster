@@ -12,14 +12,14 @@
                       Title="查看扭蛋日志" Height="500" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Label Grid.Row="0"
                Margin="5,5,0,0"
                Height="30"
                VerticalAlignment="Top"
-               Content="选择账号："/>
+               Content="选择账号：" />
         <ComboBox x:Name="cbAccount"
                   Grid.Row="0"
                   HorizontalAlignment="Left"
@@ -34,10 +34,10 @@
                   Margin="235,5,0,0"
                   IsChecked="True"
                   Click="chkFilter_Click"
-                  Content="过滤种子扭蛋结果"/>
+                  Content="过滤种子扭蛋结果" />
         <RichTextBox x:Name="rtLog"
                      Grid.Row="1"
                      VerticalScrollBarVisibility="Visible"
-                     IsReadOnly="True"/>
+                     IsReadOnly="True" />
     </Grid>
 </Controls:MetroWindow>

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 
 namespace FKGDataEditor
@@ -13,7 +10,7 @@ namespace FKGDataEditor
 
         private readonly Dictionary<String, PropertyChangedEventArgs> _cacheEventArgs;
 
-        #endregion
+        #endregion Private Properties
 
         #region Constructor
 
@@ -22,7 +19,7 @@ namespace FKGDataEditor
             _cacheEventArgs = new Dictionary<String, PropertyChangedEventArgs>();
         }
 
-        #endregion
+        #endregion Constructor
 
         #region INotifyPropertyChanged Members
 
@@ -47,6 +44,6 @@ namespace FKGDataEditor
                 handler(this, args);
         }
 
-        #endregion
+        #endregion INotifyPropertyChanged Members
     }
 }
