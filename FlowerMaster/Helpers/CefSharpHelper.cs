@@ -106,6 +106,18 @@ namespace FlowerMaster.Helpers
             return classDetails.DescendantFound != IntPtr.Zero;
         }
 
+        public static double ZoomLevel2Scale(double zoomLevel)
+        {
+            double ret = Math.Pow(1.2, zoomLevel);
+            return ret;
+        }
+
+        public static double Scale2ZoomLevel(double scale)
+        {
+            double ret = Math.Log(scale, 1.2);
+            return ret;
+        }
+
         #endregion Public Method
 
         #region Private Method

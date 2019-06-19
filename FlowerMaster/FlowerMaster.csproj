@@ -191,6 +191,7 @@
     <Compile Include="UserControls\SearchParameterPanel.xaml.cs">
       <DependentUpon>SearchParameterPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\GameFrameVM.cs" />
     <Page Include="BalconyGardenWindows.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -1,5 +1,7 @@
 ﻿using FlowerMaster.Helpers;
 using FlowerMaster.Models;
+using FlowerMaster.ViewModel;
+using CefSharp;
 using MahApps.Metro.Controls.Dialogs;
 using Nekoxy;
 using System;
@@ -31,8 +33,11 @@ namespace FlowerMaster
         public Timer timerAuto = null; //自动推图定时器
         public int autoGoLastConf = 0; //自动推图点击上次配置计数器
         public Timer timerNotify = null; //提醒计时器
+        public int autoClickX = 0; //自動推圖點擊座標X
+        public int autoClickY = 0; //自動推圖點擊座標Y
 
         private IntPtr webHandle = IntPtr.Zero;
+        private GameFrameVM _gameFrameVM;
 
         //模拟鼠标操作相关API引入
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
@@ -60,6 +65,11 @@ namespace FlowerMaster
             CefSharpHelper.CefInitialize();
 
             InitializeComponent();
+
+            //TODO:需載入前次使用者儲存的尺寸
+            //設定瀏覽器尺寸資料聯繫
+            _gameFrameVM = new GameFrameVM();
+            SP_WebSize.DataContext = _gameFrameVM;
         }
 
         /// <summary>
@@ -355,6 +365,21 @@ namespace FlowerMaster
         }
 
         /// <summary>
+        /// 套用瀏覽器尺寸
+        /// </summary>
+        private void ApplyWebBrowserSize()
+        {
+            WinFormHost.Width = _gameFrameVM.Width;
+            WinFormHost.Height = _gameFrameVM.Height;
+            mainWeb.Width = Convert.ToInt32(_gameFrameVM.Width);
+            mainWeb.Height = Convert.ToInt32(_gameFrameVM.Height);
+            mainWeb.SetZoomLevel(_gameFrameVM.ZoomLevel);
+
+            autoClickX = _gameFrameVM.AutoClick_X;
+            autoClickY = _gameFrameVM.AutoClick_Y;
+        }
+
+        /// <summary>
         /// 根据DPI调整浏览器组件大小
         /// </summary>
         private void ResizeWeb()
@@ -570,6 +595,11 @@ namespace FlowerMaster
 
             ApplyProxySettings();
 
+            //修改瀏覽器尺寸
+            ApplyWebBrowserSize();
+
+            //TODO:需儲存使用者設定尺寸
+
             return true;
         }
 
@@ -584,13 +614,14 @@ namespace FlowerMaster
                 timerAuto.Change(Timeout.Infinite, DataUtil.Config.sysConfig.autoGoTimeout);
                 return;
             }
-            int x = 1020, y = 600;
+            int x = autoClickX, y = autoClickY;
             if (autoGoLastConf > 0)
             {
                 x = 765;
                 y = 475;
                 autoGoLastConf--;
             }
+
             IntPtr lParam = (IntPtr)((y << 16) | x); //坐标信息
             IntPtr wParam = IntPtr.Zero; // 附加的按键信息（如：Ctrl）
             const uint downCode = 0x201; // 鼠标左键按下
@@ -645,6 +676,7 @@ namespace FlowerMaster
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
             SystemInit();
+            ApplyWebBrowserSize();
 
             if (DataUtil.Config.sysConfig.showLoginDialog)
             {

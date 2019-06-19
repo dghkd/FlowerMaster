@@ -10,7 +10,7 @@
                       GlowBrush="{DynamicResource AccentColorBrush}"
                       Title="團長助理 1.48"
                       Height="740"
-                      Width="1000"
+                      Width="1190"
                       ResizeMode="CanResizeWithGrip"
                       Icon="f23.ico"
                       Loaded="MetroWindow_Loaded"
@@ -530,34 +530,76 @@
                                      Height="20"
                                      MaxLength="1"
                                      Width="30" />
-                            <Label FontWeight="Bold"
-                                   FontSize="16px"
-                                   Height="30"
-                                   VerticalAlignment="Top"
-                                   Margin="0,335,0,0"
-                                   Content="Flash抽取样式" />
-                            <Label VerticalAlignment="Top"
-                                   HorizontalAlignment="Left"
-                                   Margin="15,360,0,0"
-                                   Content="仅当自动抽取Flash不正确时，才需修改此设置。" />
-                            <TextBox x:Name="tbCssStyle"
-                                     VerticalAlignment="Top"
-                                     HorizontalAlignment="Left"
-                                     Margin="20,387,0,0"
-                                     Width="260"
-                                     Height="90"
-                                     TextWrapping="Wrap"
-                                     AcceptsReturn="True"
-                                     VerticalScrollBarVisibility="Visible"
-                                     Text="" />
-                            <Button x:Name="btnReset"
-                                    VerticalAlignment="Top"
-                                    HorizontalAlignment="Left"
-                                    Margin="215,485,0,0"
-                                    Width="65"
-                                    Height="30"
-                                    Click="btnReset_Click"
-                                    Content="还原默认" />
+                            <StackPanel x:Name="SP_WebSize"
+                                        Orientation="Vertical"
+                                        Margin="0,335,0,0">
+                                <Label FontWeight="Bold"
+                                       FontSize="16px"
+                                       Height="30"
+                                       VerticalAlignment="Top"
+                                       Content="瀏覽器尺寸"></Label>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Height="30"
+                                           Margin="15,0,0,5"
+                                           VerticalAlignment="Center"
+                                           Content="寬 x 高 ="></Label>
+                                    <TextBox x:Name="TXTBOX_WebWidth"
+                                             Margin="5,0"
+                                             VerticalAlignment="Top"
+                                             Width="70"
+                                             Text="{Binding Width, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                    <Label Content="x"></Label>
+                                    <TextBox x:Name="TXTBOX_WebHeight"
+                                             Margin="5,0"
+                                             VerticalAlignment="Top"
+                                             Width="70"
+                                             Text="{Binding Height, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="自動推圖點擊座標:"
+                                           Margin="15,0,0,0"></Label>
+                                    <Label Content="X = "></Label>
+                                    <TextBox x:Name="TXTBOX_AutoClickX"
+                                             Width="70"
+                                             VerticalAlignment="Top"
+                                             Text="{Binding AutoClick_X}"></TextBox>
+                                    <Label Content="Y = "></Label>
+                                    <TextBox x:Name="TXTBOX_AutoClickY"
+                                             Width="70"
+                                             VerticalAlignment="Top"
+                                             Text="{Binding AutoClick_Y}"></TextBox>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical"
+                                        Margin="0,430,0,0">
+                                <Label FontWeight="Bold"
+                                       FontSize="16px"
+                                       Height="30"
+                                       VerticalAlignment="Top"
+                                       Content="Flash抽取样式" />
+                                <Label VerticalAlignment="Top"
+                                       HorizontalAlignment="Left"
+                                       Margin="15,0,0,0"
+                                       Content="仅当自动抽取Flash不正确时，才需修改此设置。" />
+                                <TextBox x:Name="tbCssStyle"
+                                         VerticalAlignment="Top"
+                                         HorizontalAlignment="Left"
+                                         Margin="20,0,0,0"
+                                         Width="260"
+                                         Height="90"
+                                         TextWrapping="Wrap"
+                                         AcceptsReturn="True"
+                                         VerticalScrollBarVisibility="Visible"
+                                         Text="" />
+                                <Button x:Name="btnReset"
+                                        VerticalAlignment="Top"
+                                        HorizontalAlignment="Left"
+                                        Margin="215,5,0,0"
+                                        Width="65"
+                                        Height="30"
+                                        Click="btnReset_Click"
+                                        Content="还原默认" />
+                            </StackPanel>
                         </Grid>
                     </ScrollViewer>
 
