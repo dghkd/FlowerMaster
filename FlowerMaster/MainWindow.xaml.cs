@@ -622,12 +622,15 @@ namespace FlowerMaster
                 autoGoLastConf--;
             }
 
-            IntPtr lParam = (IntPtr)((y << 16) | x); //坐标信息
-            IntPtr wParam = IntPtr.Zero; // 附加的按键信息（如：Ctrl）
-            const uint downCode = 0x201; // 鼠标左键按下
-            const uint upCode = 0x202; // 鼠标左键抬起
-            PostMessage(webHandle, downCode, wParam, lParam); // 发送鼠标按键按下消息
-            PostMessage(webHandle, upCode, wParam, lParam); // 发送鼠标按键抬起消息
+            mainWeb.GetBrowser().GetHost().SendMouseClickEvent(x, y, MouseButtonType.Left, false, 1, CefEventFlags.None);
+            SpinWait.SpinUntil(() => false, 10);
+            mainWeb.GetBrowser().GetHost().SendMouseClickEvent(x, y, MouseButtonType.Left, true, 1, CefEventFlags.None);
+            //IntPtr lParam = (IntPtr)((y << 16) | x); //坐标信息
+            //IntPtr wParam = IntPtr.Zero; // 附加的按键信息（如：Ctrl）
+            //const uint downCode = 0x201; // 鼠标左键按下
+            //const uint upCode = 0x202; // 鼠标左键抬起
+            //PostMessage(webHandle, downCode, wParam, lParam); // 发送鼠标按键按下消息
+            //PostMessage(webHandle, upCode, wParam, lParam); // 发送鼠标按键抬起消息
         }
 
         /// <summary>
