@@ -75,7 +75,11 @@ namespace FlowerMaster.Helpers
             resultStream.Read(buffer, 0, buffer.Length);
             resultStream.Close();
             outStream.Close();
-            return Encoding.UTF8.GetString(Convert.FromBase64String(Encoding.UTF8.GetString(buffer)));
+
+            return Encoding.UTF8.GetString(buffer);
+
+            //2019/06/17更新新版後資料無Base64編碼
+            //return Encoding.UTF8.GetString(Convert.FromBase64String(Encoding.UTF8.GetString(buffer)));
         }
 
         /// <summary>
@@ -89,6 +93,13 @@ namespace FlowerMaster.Helpers
             pack = new PacketInfo();
             pack.requestUrl = s.Request.PathAndQuery;
             pack.rawData = s.Response.BodyAsString;
+            Debug.WriteLine(String.Format($"requestUrl:{pack.requestUrl}"));
+
+            if (pack.rawData == "")
+            {
+                pack.data = null;
+                return false;
+            }
 
             if (s.Request.PathAndQuery.IndexOf("/api/v1/") != -1)
             {
@@ -100,6 +111,7 @@ namespace FlowerMaster.Helpers
                     try
                     {
                         pack.rawData = DecryptData(s.Response.Body);
+                        Debug.WriteLine(String.Format($"rawData:{pack.rawData}"));
                     }
                     catch (Exception e)
                     {
@@ -181,11 +193,13 @@ namespace FlowerMaster.Helpers
 #if DEBUG
                     LogsHelper.LogDebug("【请求】" + pack.funcApi + "\r\n【响应】" + pack.rawData + "\r\n================================================================");
 #endif
+                    //2019/06/17更新新版後已無法取得伺服器時間
                     //更新服务器时间
-                    if (pack.data["serverTime"] != null)
-                    {
-                        DataUtil.Game.serverTime = Convert.ToDateTime(pack.data["serverTime"].ToString());
-                    }
+                    //if (pack.data["serverTime"] != null)
+                    //{
+                    //    DataUtil.Game.serverTime = Convert.ToDateTime(pack.data["serverTime"].ToString());
+                    //}
+
                     //----- 游戏数据处理开始 -----
                     //游戏登录
                     if (pack.funcApi == "/user/login")
