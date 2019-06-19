@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Forms.Integration;
 using System.Windows.Input;
 using System.Windows.Interop;
 
@@ -32,7 +32,7 @@ namespace FlowerMaster
 
         #region Private Member
 
-        private WebBrowser _web;
+        private WindowsFormsHost _web;
         private WebBrowserOverlay _wnd;
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace FlowerMaster
 
         #region Constructor
 
-        public BalconyGardenWindows(WebBrowser web)
+        public BalconyGardenWindows(WindowsFormsHost web)
         {
             InitializeComponent();
             this.SourceInitialized += On_Windows_SourceInitialized;
@@ -141,7 +141,7 @@ namespace FlowerMaster
 
         #region Private Method
 
-        private void ResizeWindow(WebBrowser web)
+        private void ResizeWindow(WindowsFormsHost web)
         {
             this.Width = web.Width;
             this.Height = web.Height + GD_FootBar.ActualHeight;

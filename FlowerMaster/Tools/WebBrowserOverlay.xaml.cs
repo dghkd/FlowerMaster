@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Forms.Integration;
 using System.Windows.Interop;
 using System.Windows.Media;
 
@@ -48,13 +48,13 @@ namespace FlowerMaster
         #region Private Member
 
         private FrameworkElement _placementTarget;
-        private WebBrowser _web;
+        private WindowsFormsHost _web;
 
         #endregion Private Member
 
         #region Constructor
 
-        public WebBrowserOverlay(WebBrowser web, FrameworkElement placementTarget)
+        public WebBrowserOverlay(WindowsFormsHost web, FrameworkElement placementTarget)
         {
             InitializeComponent();
             _web = web;
