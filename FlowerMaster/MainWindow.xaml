@@ -8,7 +8,7 @@
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:cefSharp="clr-namespace:CefSharp.WinForms;assembly=CefSharp.WinForms"
                       GlowBrush="{DynamicResource AccentColorBrush}"
-                      Title="團長助理 1.48"
+                      Title="團長助理 1.49"
                       Height="740"
                       Width="1190"
                       ResizeMode="CanResizeWithGrip"
