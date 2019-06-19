@@ -1,7 +1,6 @@
 ﻿using FlowerMaster.Helpers;
 using FlowerMaster.Models;
 using MahApps.Metro.Controls.Dialogs;
-using mshtml;
 using Nekoxy;
 using System;
 using System.Diagnostics;
@@ -14,7 +13,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Navigation;
 
 namespace FlowerMaster
 {
@@ -51,6 +49,16 @@ namespace FlowerMaster
 
         public MainWindow()
         {
+            DataUtil.Config = new SysConfig();
+            DataUtil.Game = new GameInfo();
+            DataUtil.Cards = new CardInfo();
+            DataUtil.Config.LoadConfig();
+            DataUtil.Game.gameServer = DataUtil.Config.sysConfig.gameServer;
+            if (DataUtil.Config.sysConfig.enableHotKey) EnableHotKey();
+
+            //於Component建立之前初始化CEF設定
+            CefSharpHelper.CefInitialize();
+
             InitializeComponent();
         }
 
@@ -99,14 +107,6 @@ namespace FlowerMaster
             PacketHelper.mainWindow = this;
             MiscHelper.SetIEConfig();
 
-            DataUtil.Config = new SysConfig();
-            DataUtil.Game = new GameInfo();
-            DataUtil.Cards = new CardInfo();
-            DataUtil.Config.LoadConfig();
-            DataUtil.Game.gameServer = DataUtil.Config.sysConfig.gameServer;
-
-            if (DataUtil.Config.sysConfig.enableHotKey) EnableHotKey();
-
             InitTrayIcon(DataUtil.Config.sysConfig.alwaysShowTray);
 
             ShowConfigToSettings();
@@ -123,8 +123,8 @@ namespace FlowerMaster
 
             InitProxy();
 
-            mainWeb.Navigate("about:blank");
-            MiscHelper.SuppressScriptErrors(mainWeb, true);
+            mainWeb.Load("about:blank");
+            //MiscHelper.SuppressScriptErrors(mainWeb, true);
             MiscHelper.AddLog("系统初始化完毕，等待登录游戏...", MiscHelper.LogType.System);
         }
 
@@ -343,20 +343,14 @@ namespace FlowerMaster
             if (DataUtil.Config.sysConfig.proxyType == SysConfig.ProxySettingsType.DirectAccess)
             {
                 HttpProxy.UpstreamProxyConfig = new ProxyConfig(ProxyConfigType.DirectAccess);
-                WinInetUtil.SetProxyInProcess($"http=127.0.0.1:{DataUtil.Config.localProxyPort}", "local");
             }
             else if (DataUtil.Config.sysConfig.proxyType == SysConfig.ProxySettingsType.UseSystemProxy)
             {
                 HttpProxy.UpstreamProxyConfig = new ProxyConfig(ProxyConfigType.SystemProxy);
-                WinInetUtil.SetProxyInProcessForNekoxy(DataUtil.Config.localProxyPort);
             }
             else if (DataUtil.Config.sysConfig.proxyType == SysConfig.ProxySettingsType.UseUserProxy)
             {
                 HttpProxy.UpstreamProxyConfig = new ProxyConfig(ProxyConfigType.SpecificProxy, DataUtil.Config.sysConfig.proxyServer, DataUtil.Config.sysConfig.proxyPort);
-                WinInetUtil.SetProxyInProcess(
-                                    $"http=127.0.0.1:{DataUtil.Config.localProxyPort};"
-                                    + $"https={DataUtil.Config.sysConfig.proxyServer}:{DataUtil.Config.sysConfig.proxyPort};"
-                                    , "local");
             }
         }
 
@@ -371,8 +365,8 @@ namespace FlowerMaster
                 double oldHeight = mainWeb.Height;
                 float dpiX = graphics.DpiX;
                 float dpiY = graphics.DpiY;
-                mainWeb.Width = mainWeb.Width * (96.0 / dpiX);
-                mainWeb.Height = mainWeb.Height * (96.0 / dpiY);
+                mainWeb.Width = Convert.ToInt32(mainWeb.Width * (96.0 / dpiX));
+                mainWeb.Height = Convert.ToInt32(mainWeb.Height * (96.0 / dpiY));
                 this.Width -= (oldWidth - mainWeb.Width);
                 this.Height -= (oldHeight - mainWeb.Height);
                 this.Top += (oldHeight - mainWeb.Height) / 2;
@@ -590,7 +584,7 @@ namespace FlowerMaster
                 timerAuto.Change(Timeout.Infinite, DataUtil.Config.sysConfig.autoGoTimeout);
                 return;
             }
-            int x = 855, y = 545;
+            int x = 1020, y = 600;
             if (autoGoLastConf > 0)
             {
                 x = 765;
@@ -613,7 +607,7 @@ namespace FlowerMaster
             DataUtil.Game.gameServer = DataUtil.Config.currentAccount.gameServer;
             DataUtil.Config.sysConfig.gameServer = DataUtil.Game.gameServer;
             DataUtil.Config.sysConfig.gameHomePage = 1;
-            mainWeb.Navigate(DataUtil.Game.gameUrl);
+            mainWeb.Load(DataUtil.Game.gameUrl);
         }
 
         /// <summary>
@@ -644,13 +638,14 @@ namespace FlowerMaster
                 newsHadShown = false;
                 DataUtil.Game.isOnline = false;
                 DataUtil.Game.canAuto = false;
-                mainWeb.Navigate(DataUtil.Game.gameUrl);
+                mainWeb.Load(DataUtil.Game.gameUrl);
             }
         }
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
             SystemInit();
+
             if (DataUtil.Config.sysConfig.showLoginDialog)
             {
                 DataUtil.Config.currentAccount = new SysConfig.AccountList();
@@ -660,7 +655,7 @@ namespace FlowerMaster
             }
             else
             {
-                mainWeb.Navigate(DataUtil.Game.gameUrl);
+                mainWeb.Load(DataUtil.Game.gameUrl);
             }
         }
 
@@ -685,6 +680,8 @@ namespace FlowerMaster
                 notifyIcon.Dispose();
                 notifyIcon = null;
             }
+
+            CefSharpHelper.Close();
         }
 
         private void MetroWindow_StateChanged(object sender, EventArgs e)
@@ -709,102 +706,13 @@ namespace FlowerMaster
             if (DataUtil.Config.sysConfig.miniToMute && SoundHelper.isMute && !SoundHelper.userMute) SoundHelper.Mute();
         }
 
-        private void mainWeb_LoadCompleted(object sender, NavigationEventArgs e)
+        private void mainWeb_FrameLoadEnd(object sender, CefSharp.FrameLoadEndEventArgs e)
         {
-            if (styleSheetApplied) return;
-            var document = mainWeb.Document as HTMLDocument;
-            if (document == null) return;
-
-            //抽取Flash，应用CSS样式
-            IHTMLElement gameFrame = null;
-            if (DataUtil.Game.gameServer == (int)GameInfo.ServersList.American || DataUtil.Game.gameServer == (int)GameInfo.ServersList.AmericanR18)
+            bool bRet = CefSharpHelper.TakeoutGameFrame(mainWeb);
+            if (bRet)
             {
-                gameFrame = document.getElementById("game_frame");
-                if (gameFrame != null)
-                {
-                    mainWeb.Navigate(Convert.ToString(gameFrame.getAttribute("src")));
-                    return;
-                }
-                else
-                {
-                    gameFrame = document.getElementById("externalContainer");
-                }
-            }
-            else
-            {
-                gameFrame = document.getElementById("game_frame");
-            }
-            if (gameFrame != null)
-            {
-                var target = gameFrame?.document as HTMLDocument;
-                if (target != null)
-                {
-                    if (DataUtil.Game.gameServer == (int)GameInfo.ServersList.American || DataUtil.Game.gameServer == (int)GameInfo.ServersList.AmericanR18)
-                    {
-                        target.createStyleSheet().cssText = DataUtil.Config.sysConfig.userCSSAmerican;
-                    }
-                    else
-                    {
-                        target.createStyleSheet().cssText = DataUtil.Config.sysConfig.userCSS;
-                    }
-                    styleSheetApplied = true;
-                    MiscHelper.AddLog("抽取Flash样式应用成功！", MiscHelper.LogType.System);
-                }
-            }
-
-            //自动登录相关
-            if (!loginSubmitted && DataUtil.Config.currentAccount.username != null && DataUtil.Config.currentAccount.username.Trim() != "")
-            {
-                IHTMLElement username = null;
-                IHTMLElement password = null;
-                if (DataUtil.Game.gameServer == (int)GameInfo.ServersList.American || DataUtil.Game.gameServer == (int)GameInfo.ServersList.AmericanR18)
-                {
-                    username = document.getElementById("s-email");
-                    password = document.getElementById("s-password");
-                }
-                else
-                {
-                    username = document.getElementById("login_id");
-                    password = document.getElementById("password");
-                }
-
-                if (username == null || password == null) return;
-
-                DESHelper des = new DESHelper();
-
-                username.setAttribute("value", des.Decrypt(DataUtil.Config.currentAccount.username));
-                password.setAttribute("value", des.Decrypt(DataUtil.Config.currentAccount.password));
-
-                if (DataUtil.Config.currentAccount.username.Trim() == "" || DataUtil.Config.currentAccount.password == "")
-                {
-                    loginSubmitted = true;
-                    return;
-                }
-
-                //点击登录按钮
-                if (DataUtil.Game.gameServer == (int)GameInfo.ServersList.American || DataUtil.Game.gameServer == (int)GameInfo.ServersList.AmericanR18)
-                {
-                    IHTMLElement autoLogin = document.getElementById("autoLogin");
-                    IHTMLElement login = document.getElementById("login-button");
-                    if (autoLogin != null) autoLogin.click();
-                    if (login != null)
-                    {
-                        login.click();
-                        loginSubmitted = true;
-                    }
-                }
-                else
-                {
-                    foreach (IHTMLElement element in document.all)
-                    {
-                        if (Convert.ToString(element.getAttribute("value")) == "ログイン")
-                        {
-                            element.click();
-                            loginSubmitted = true;
-                            break;
-                        }
-                    }
-                }
+                styleSheetApplied = true;
+                MiscHelper.AddLog("抽取Flash样式应用成功！", MiscHelper.LogType.System);
             }
         }
 
@@ -905,13 +813,15 @@ namespace FlowerMaster
             if (!DataUtil.Game.isOnline) return;
             if (webHandle == IntPtr.Zero)
             {
-                webHandle = mainWeb.Handle;
-                StringBuilder className = new StringBuilder(100);
-                while (className.ToString() != "Internet Explorer_Server") // 浏览器组件类获取
+                //需調用UI主執行緒才能使用mainWeb.Handle值
+                App.Current.Dispatcher.Invoke(() =>
                 {
-                    webHandle = GetWindow(webHandle, 5); // 获取子窗口的句柄
-                    GetClassName(webHandle, className, className.Capacity);
-                }
+                    bool bFindHandle = CefSharpHelper.TryFindHandle(mainWeb.Handle, out webHandle);
+                    if (!bFindHandle)
+                    {
+                        return;
+                    }
+                });
             }
             if (DataUtil.Game.isAuto)
             {
@@ -1014,11 +924,11 @@ namespace FlowerMaster
 
         private void btnViewer_Click(object sender, RoutedEventArgs e)
         {
-            grid1.Children.Remove(mainWeb);
-            BalconyGardenWindows blgWnd = new BalconyGardenWindows(mainWeb);
-            blgWnd.Closing += On_blgWnd_Closing;
-            blgWnd.Show();
-            this.Visibility = Visibility.Hidden;
+            //grid1.Children.Remove(mainWeb);
+            //BalconyGardenWindows blgWnd = new BalconyGardenWindows(mainWeb);
+            //blgWnd.Closing += On_blgWnd_Closing;
+            //blgWnd.Show();
+            //this.Visibility = Visibility.Hidden;
         }
 
         private void btnGirlNameList_Click(object sender, RoutedEventArgs e)
@@ -1029,8 +939,8 @@ namespace FlowerMaster
 
         private void On_blgWnd_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            grid1.Children.Add(mainWeb);
-            this.Visibility = Visibility.Visible;
+            //grid1.Children.Add(mainWeb);
+            //this.Visibility = Visibility.Visible;
         }
     }
 }

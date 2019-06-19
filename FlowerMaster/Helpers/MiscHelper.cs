@@ -411,100 +411,100 @@ namespace FlowerMaster.Helpers
         /// </summary>
         public static void ScreenShot()
         {
-            if (!Directory.Exists("screenshot"))
-            {
-                Directory.CreateDirectory("screenshot");
-            }
-            string path = @"screenshot\" + LogsHelper.GetServerName() + "_" + LogsHelper.GetFilePlayerName() + "_" + DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss_fff") + "." + DataUtil.Config.sysConfig.capFormat.ToString().ToLower();
+            //if (!Directory.Exists("screenshot"))
+            //{
+            //    Directory.CreateDirectory("screenshot");
+            //}
+            //string path = @"screenshot\" + LogsHelper.GetServerName() + "_" + LogsHelper.GetFilePlayerName() + "_" + DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss_fff") + "." + DataUtil.Config.sysConfig.capFormat.ToString().ToLower();
 
-            var document = main.mainWeb.Document as HTMLDocument;
-            if (document == null)
-            {
-                return;
-            }
+            //var document = main.mainWeb.Document as HTMLDocument;
+            //if (document == null)
+            //{
+            //    return;
+            //}
 
-            if (document.url.Contains(".swf?"))
-            {
-                var viewObject = document.getElementsByTagName("embed").item(0, 0) as IViewObject;
-                if (viewObject == null)
-                {
-                    return;
-                }
+            //if (document.url.Contains(".swf?"))
+            //{
+            //    var viewObject = document.getElementsByTagName("embed").item(0, 0) as IViewObject;
+            //    if (viewObject == null)
+            //    {
+            //        return;
+            //    }
 
-                var width = ((HTMLEmbed)viewObject).clientWidth;
-                var height = ((HTMLEmbed)viewObject).clientHeight;
-                TakeScreenshot(width, height, viewObject, path);
-            }
-            else
-            {
-                if (DataUtil.Game.gameServer == (int)GameInfo.ServersList.American || DataUtil.Game.gameServer == (int)GameInfo.ServersList.AmericanR18)
-                {
-                    var gameFrame = document.getElementById("externalContainer").document as HTMLDocument;
-                    if (gameFrame == null)
-                    {
-                        return;
-                    }
+            //    var width = ((HTMLEmbed)viewObject).clientWidth;
+            //    var height = ((HTMLEmbed)viewObject).clientHeight;
+            //    TakeScreenshot(width, height, viewObject, path);
+            //}
+            //else
+            //{
+            //    if (DataUtil.Game.gameServer == (int)GameInfo.ServersList.American || DataUtil.Game.gameServer == (int)GameInfo.ServersList.AmericanR18)
+            //    {
+            //        var gameFrame = document.getElementById("externalContainer").document as HTMLDocument;
+            //        if (gameFrame == null)
+            //        {
+            //            return;
+            //        }
 
-                    IViewObject viewObject = null;
-                    int width = 0, height = 0;
-                    var swf = gameFrame.getElementById("externalswf");
-                    if (swf == null) return;
-                    Func<dynamic, bool> function = target =>
-                    {
-                        if (target == null) return false;
-                        viewObject = target as IViewObject;
-                        if (viewObject == null) return false;
-                        width = int.Parse(target.width);
-                        height = int.Parse(target.height);
-                        return true;
-                    };
-                    if (!function(swf as HTMLEmbed) && !function(swf as HTMLObjectElement)) return;
+            //        IViewObject viewObject = null;
+            //        int width = 0, height = 0;
+            //        var swf = gameFrame.getElementById("externalswf");
+            //        if (swf == null) return;
+            //        Func<dynamic, bool> function = target =>
+            //        {
+            //            if (target == null) return false;
+            //            viewObject = target as IViewObject;
+            //            if (viewObject == null) return false;
+            //            width = int.Parse(target.width);
+            //            height = int.Parse(target.height);
+            //            return true;
+            //        };
+            //        if (!function(swf as HTMLEmbed) && !function(swf as HTMLObjectElement)) return;
 
-                    TakeScreenshot(width, height, viewObject, path);
-                }
-                else
-                {
-                    var gameFrame = document.getElementById("game_frame").document as HTMLDocument;
-                    if (gameFrame == null)
-                    {
-                        return;
-                    }
+            //        TakeScreenshot(width, height, viewObject, path);
+            //    }
+            //    else
+            //    {
+            //        var gameFrame = document.getElementById("game_frame").document as HTMLDocument;
+            //        if (gameFrame == null)
+            //        {
+            //            return;
+            //        }
 
-                    var frames = document.frames;
-                    for (var i = 0; i < frames.length; i++)
-                    {
-                        var item = frames.item(i);
-                        var provider = item as IServiceProvider;
-                        if (provider == null) continue;
+            //        var frames = document.frames;
+            //        for (var i = 0; i < frames.length; i++)
+            //        {
+            //            var item = frames.item(i);
+            //            var provider = item as IServiceProvider;
+            //            if (provider == null) continue;
 
-                        object ppvObject;
-                        provider.QueryService(typeof(IWebBrowserApp).GUID, typeof(IWebBrowser2).GUID, out ppvObject);
-                        var webBrowser = ppvObject as IWebBrowser2;
+            //            object ppvObject;
+            //            provider.QueryService(typeof(IWebBrowserApp).GUID, typeof(IWebBrowser2).GUID, out ppvObject);
+            //            var webBrowser = ppvObject as IWebBrowser2;
 
-                        var iframeDocument = webBrowser?.Document as HTMLDocument;
-                        if (iframeDocument == null) continue;
+            //            var iframeDocument = webBrowser?.Document as HTMLDocument;
+            //            if (iframeDocument == null) continue;
 
-                        IViewObject viewObject = null;
-                        int width = 0, height = 0;
-                        var swf = iframeDocument.getElementById("externalswf");
-                        if (swf == null) continue;
-                        Func<dynamic, bool> function = target =>
-                        {
-                            if (target == null) return false;
-                            viewObject = target as IViewObject;
-                            if (viewObject == null) return false;
-                            width = int.Parse(target.width);
-                            height = int.Parse(target.height);
-                            return true;
-                        };
-                        if (!function(swf as HTMLEmbed) && !function(swf as HTMLObjectElement)) continue;
+            //            IViewObject viewObject = null;
+            //            int width = 0, height = 0;
+            //            var swf = iframeDocument.getElementById("externalswf");
+            //            if (swf == null) continue;
+            //            Func<dynamic, bool> function = target =>
+            //            {
+            //                if (target == null) return false;
+            //                viewObject = target as IViewObject;
+            //                if (viewObject == null) return false;
+            //                width = int.Parse(target.width);
+            //                height = int.Parse(target.height);
+            //                return true;
+            //            };
+            //            if (!function(swf as HTMLEmbed) && !function(swf as HTMLObjectElement)) continue;
 
-                        TakeScreenshot(width, height, viewObject, path);
+            //            TakeScreenshot(width, height, viewObject, path);
 
-                        break;
-                    }
-                }
-            }
+            //            break;
+            //        }
+            //    }
+            //}
         }
 
         /// <summary>
