@@ -390,12 +390,16 @@ namespace FlowerMaster
                 double oldHeight = mainWeb.Height;
                 float dpiX = graphics.DpiX;
                 float dpiY = graphics.DpiY;
-                mainWeb.Width = Convert.ToInt32(mainWeb.Width * (96.0 / dpiX));
-                mainWeb.Height = Convert.ToInt32(mainWeb.Height * (96.0 / dpiY));
-                this.Width -= (oldWidth - mainWeb.Width);
-                this.Height -= (oldHeight - mainWeb.Height);
-                this.Top += (oldHeight - mainWeb.Height) / 2;
-                this.Left += (oldWidth - mainWeb.Width) / 2;
+                _gameFrameVM.Width *= (96.0 / dpiX);
+                //Auto calculate height and mainWeb size on ApplyWebBrowserSize.
+                //_gameFrameVM.Height *= (96.0 / dpiY);
+                //mainWeb.Width = Convert.ToInt32(mainWeb.Width * (96.0 / dpiX));
+                //mainWeb.Height = Convert.ToInt32(mainWeb.Height * (96.0 / dpiY));
+
+                this.Width = _gameFrameVM.Width + 40;
+                this.Height = _gameFrameVM.Height + 100;
+                this.Top = (SystemParameters.WorkArea.Height - this.Height) / 2 + SystemParameters.WorkArea.Top;
+                this.Left = (SystemParameters.WorkArea.Width - this.Width) / 2 + SystemParameters.WorkArea.Left;
             }
         }
 
@@ -748,6 +752,7 @@ namespace FlowerMaster
             {
                 styleSheetApplied = true;
                 MiscHelper.AddLog("抽取Flash样式应用成功！", MiscHelper.LogType.System);
+                mainWeb.SetZoomLevel(_gameFrameVM.ZoomLevel);
             }
         }
 

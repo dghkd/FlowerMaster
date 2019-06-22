@@ -50,7 +50,7 @@
                                       Width="1145"
                                       Height="650"
                                       Margin="0,0,0,0"
-                                      HorizontalAlignment="Center"
+                                      HorizontalAlignment="Left"
                                       VerticalAlignment="Center">
                         <cefSharp:ChromiumWebBrowser x:Name="mainWeb"
                                                      Width="1145"
