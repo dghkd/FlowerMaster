@@ -193,12 +193,11 @@ namespace FlowerMaster.Helpers
 #if DEBUG
                     LogsHelper.LogDebug("【请求】" + pack.funcApi + "\r\n【响应】" + pack.rawData + "\r\n================================================================");
 #endif
-                    //2019/06/17更新新版後已無法取得伺服器時間
                     //更新服务器时间
-                    //if (pack.data["serverTime"] != null)
-                    //{
-                    //    DataUtil.Game.serverTime = Convert.ToDateTime(pack.data["serverTime"].ToString());
-                    //}
+                    if (pack.data["serverTime"] != null)
+                    {
+                        DataUtil.Game.serverTime = Convert.ToDateTime(pack.data["serverTime"].ToString());
+                    }
 
                     //----- 游戏数据处理开始 -----
                     //游戏登录
