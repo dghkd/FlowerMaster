@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace FlowerMaster.Helpers
 {
@@ -24,7 +26,7 @@ namespace FlowerMaster.Helpers
             return wpfScreen;
         }
 
-        public static ScreenHelper GetScreenFrom(Point point)
+        public static ScreenHelper GetScreenFrom(System.Windows.Point point)
         {
             int x = (int)Math.Round(point.X);
             int y = (int)Math.Round(point.Y);
@@ -39,6 +41,33 @@ namespace FlowerMaster.Helpers
         public static ScreenHelper Primary
         {
             get { return new ScreenHelper(System.Windows.Forms.Screen.PrimaryScreen); }
+        }
+
+        /// <summary>
+        /// 擷取螢幕畫面
+        /// <para>此方法會依螢幕畫面擷取，所以會擷取到其他前景視窗</para>
+        /// </summary>
+        /// <param name="x">螢幕座標x點</param>
+        /// <param name="y">螢幕座標y點</param>
+        /// <param name="width">擷取寬度</param>
+        /// <param name="height">擷取高度</param>
+        /// <returns></returns>
+        public static Bitmap CaptureScreen(int x, int y, int width, int height)
+        {
+            Matrix transformToDevice;
+            using (var source = new HwndSource(new HwndSourceParameters()))
+                transformToDevice = source.CompositionTarget.TransformToDevice;
+            System.Drawing.Size size = new System.Drawing.Size(Convert.ToInt32(width * transformToDevice.M11),
+                                                                Convert.ToInt32(height * transformToDevice.M22));
+
+            Bitmap bmp = new Bitmap(size.Width, size.Height);
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                g.CopyFromScreen(new System.Drawing.Point(x, y), new System.Drawing.Point(0, 0), size, CopyPixelOperation.SourceCopy);
+                g.Dispose();
+            }
+
+            return bmp;
         }
 
         private readonly Screen screen;
