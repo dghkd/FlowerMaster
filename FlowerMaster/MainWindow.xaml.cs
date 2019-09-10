@@ -133,6 +133,8 @@ namespace FlowerMaster
 
             InitProxy();
 
+            mainWeb.JsDialogHandler = new JsDialogHandler();
+
             mainWeb.Load("about:blank");
             //MiscHelper.SuppressScriptErrors(mainWeb, true);
             MiscHelper.AddLog("系统初始化完毕，等待登录游戏...", MiscHelper.LogType.System);
