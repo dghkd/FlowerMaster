@@ -430,7 +430,7 @@ namespace FlowerMaster.Helpers
                 : ImageFormat.Png;
 
             image.Save(path, format);
-            AddLog("截圖已經保存到文件" + path, LogType.System);
+            AddLog("截圖已經保存到文件" + path);
         }
 
         /// <summary>
