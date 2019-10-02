@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Xml.Linq;
+using System.IO;
 using FKGDataEditor;
 using FlowerMaster.Helpers;
 
@@ -17,6 +18,8 @@ namespace FlowerMaster.ViewModel
         public const double OriginalHeight = 650;
         public const int OriginalAutoClick_X = 1020;
         public const int OriginalAutoClick_Y = 600;
+
+        public const string XmlFileName = "GameFrameSize.xml";
 
         #endregion Const
 
@@ -117,5 +120,46 @@ namespace FlowerMaster.ViewModel
         }
 
         #endregion Public Member
+
+        #region Public Method
+
+        public void SaveSettings()
+        {
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            dict.Add(nameof(this.Width), this.Width.ToString());
+            dict.Add(nameof(this.Height), this.Height.ToString());
+            dict.Add(nameof(this.AutoClick_X), this.AutoClick_X.ToString());
+            dict.Add(nameof(this.AutoClick_Y), this.AutoClick_Y.ToString());
+
+            XElement el = new XElement("root", dict.Select(kv => new XElement(kv.Key, kv.Value)));
+            el.Save(XmlFileName);
+        }
+
+        public bool LoadSettings()
+        {
+            bool ret = false;
+
+            if (File.Exists(XmlFileName))
+            {
+                string xmlString = File.ReadAllText(XmlFileName);
+                XElement rootElement = XElement.Parse(xmlString);
+                Dictionary<string, string> dict = new Dictionary<string, string>();
+                foreach (var el in rootElement.Elements())
+                {
+                    dict.Add(el.Name.LocalName, el.Value);
+                }
+
+                this.Width = Convert.ToDouble(dict[nameof(this.Width)]);
+                this.Height = Convert.ToDouble(dict[nameof(this.Height)]);
+                this.AutoClick_X = Convert.ToInt32(dict[nameof(this.AutoClick_X)]);
+                this.AutoClick_Y = Convert.ToInt32(dict[nameof(this.AutoClick_Y)]);
+
+                ret = true;
+            }
+
+            return ret;
+        }
+
+        #endregion Public Method
     }
 }

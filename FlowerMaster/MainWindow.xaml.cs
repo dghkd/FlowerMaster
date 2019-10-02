@@ -66,9 +66,9 @@ namespace FlowerMaster
 
             InitializeComponent();
 
-            //TODO:需載入前次使用者儲存的尺寸
             //設定瀏覽器尺寸資料聯繫
             _gameFrameVM = new GameFrameVM();
+            _gameFrameVM.LoadSettings();
             SP_WebSize.DataContext = _gameFrameVM;
         }
 
@@ -603,8 +603,7 @@ namespace FlowerMaster
 
             //修改瀏覽器尺寸
             ApplyWebBrowserSize();
-
-            //TODO:需儲存使用者設定尺寸
+            _gameFrameVM.SaveSettings();
 
             return true;
         }
