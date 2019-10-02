@@ -832,31 +832,18 @@ namespace FlowerMaster
 
         private async void btnClearCache_Click(object sender, RoutedEventArgs e)
         {
-            Process process = new Process();
-            process.StartInfo.FileName = "RunDll32.exe";
-            process.StartInfo.Arguments = "InetCpl.cpl,ClearMyTracksByProcess 8";
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.RedirectStandardInput = true;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardError = true;
-            process.StartInfo.CreateNoWindow = true;
-            process.Start();
-            process.WaitForExit();
-            await this.ShowMessageAsync("提示", "浏览器缓存文件清理完毕！");
+            MessageBoxResult ret = MessageBox.Show("清除暫存需要關閉遊戲並重新開啟，確定要清除瀏覽器暫存嗎?", "清除暫存", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (ret == MessageBoxResult.Yes)
+            {
+                CefSharpHelper.Close();
+                CefSharpHelper.ClearCache();
+                await this.ShowMessageAsync("提示", "瀏覽器暫存清理完畢！請關閉團長助手並重新開啟");
+            }
         }
 
         private async void btnClearCookies_Click(object sender, RoutedEventArgs e)
         {
-            Process process = new Process();
-            process.StartInfo.FileName = "RunDll32.exe";
-            process.StartInfo.Arguments = "InetCpl.cpl,ClearMyTracksByProcess 2";
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.RedirectStandardInput = true;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardError = true;
-            process.StartInfo.CreateNoWindow = true;
-            process.Start();
-            process.WaitForExit();
+            Cef.GetGlobalCookieManager().DeleteCookies("", "");
             await this.ShowMessageAsync("提示", "浏览器Cookies清理完毕！");
         }
 

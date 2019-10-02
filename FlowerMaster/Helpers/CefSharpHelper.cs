@@ -27,6 +27,15 @@ namespace FlowerMaster.Helpers
 
         private delegate bool EnumWindowProc(IntPtr hwnd, IntPtr lParam);
 
+        #region Public Member
+
+        /// <summary>
+        /// 取得或設定CEF暫存資料夾路徑
+        /// </summary>
+        public static string CefCachePath { get; set; }
+
+        #endregion Public Member
+
         #region Public Method
 
         /// <summary>
@@ -35,13 +44,18 @@ namespace FlowerMaster.Helpers
         /// </summary>
         public static void CefInitialize()
         {
-            var cefSettings = new CefSettings()
+            if (CefCachePath == null
+                || CefCachePath == "")
             {
-                //TODO:路徑需提出以便未來實作清除Cache功能
-                CachePath = Path.Combine(
+                CefCachePath = Path.Combine(
                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                "FlowerMaster",
-               "Chromium"),
+               "Chromium");
+            }
+
+            var cefSettings = new CefSettings()
+            {
+                CachePath = CefCachePath
             };
 
             cefSettings.CefCommandLineArgs.Add("proxy-server", GetLocalProxySettingString());
@@ -116,6 +130,14 @@ namespace FlowerMaster.Helpers
         {
             double ret = Math.Log(scale, 1.2);
             return ret;
+        }
+
+        public static void ClearCache()
+        {
+            if (Directory.Exists(CefCachePath))
+            {
+                Directory.Delete(CefCachePath, true);
+            }
         }
 
         #endregion Public Method
