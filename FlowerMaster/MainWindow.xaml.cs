@@ -685,7 +685,6 @@ namespace FlowerMaster
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
             SystemInit();
-            ApplyWebBrowserSize();
 
             if (DataUtil.Config.sysConfig.showLoginDialog)
             {
@@ -745,6 +744,17 @@ namespace FlowerMaster
             Activate();
             if (!DataUtil.Config.sysConfig.alwaysShowTray) notifyIcon.Visible = false;
             if (DataUtil.Config.sysConfig.miniToMute && SoundHelper.isMute && !SoundHelper.userMute) SoundHelper.Mute();
+        }
+
+        private void mainWeb_IsBrowserInitializedChanged(object sender, EventArgs e)
+        {
+            if (mainWeb.IsBrowserInitialized)
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    ApplyWebBrowserSize();
+                });
+            }
         }
 
         private void mainWeb_FrameLoadEnd(object sender, CefSharp.FrameLoadEndEventArgs e)
