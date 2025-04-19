@@ -61,7 +61,7 @@ namespace FlowerMaster.Helpers
             cefSettings.CefCommandLineArgs.Add("proxy-server", GetLocalProxySettingString());
             CefSharpSettings.SubprocessExitIfParentProcessClosed = true;
 
-            Cef.EnableHighDPISupport();
+            //Cef.EnableHighDPISupport();
             Cef.Initialize(cefSettings);
         }
 

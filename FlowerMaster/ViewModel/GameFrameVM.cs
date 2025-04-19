@@ -32,6 +32,9 @@ namespace FlowerMaster.ViewModel
         private int _autoClick_X;
         private int _autoClick_Y;
 
+        private double _dpiX;
+        private double _dpiY;
+
         #endregion Private Member
 
         #region Constuctor
@@ -44,6 +47,8 @@ namespace FlowerMaster.ViewModel
 
             _autoClick_X = OriginalAutoClick_X;
             _autoClick_Y = OriginalAutoClick_Y;
+
+            _dpiX = _dpiY = 96.0;
         }
 
         #endregion Constuctor
@@ -119,6 +124,18 @@ namespace FlowerMaster.ViewModel
             set { _autoClick_Y = value; OnPropertyChanged(nameof(AutoClick_Y)); }
         }
 
+        public double DpiX
+        {
+            get { return _dpiX; }
+            set { _dpiX = value; OnPropertyChanged(nameof(DpiX)); }
+        }
+
+        public double DpiY
+        {
+            get { return _dpiY; }
+            set { _dpiY = value; OnPropertyChanged(nameof(DpiY)); }
+        }
+
         #endregion Public Member
 
         #region Public Method
@@ -130,6 +147,8 @@ namespace FlowerMaster.ViewModel
             dict.Add(nameof(this.Height), this.Height.ToString());
             dict.Add(nameof(this.AutoClick_X), this.AutoClick_X.ToString());
             dict.Add(nameof(this.AutoClick_Y), this.AutoClick_Y.ToString());
+            dict.Add(nameof(this.DpiX), this.DpiX.ToString());
+            dict.Add(nameof(this.DpiY), this.DpiY.ToString());
 
             XElement el = new XElement("root", dict.Select(kv => new XElement(kv.Key, kv.Value)));
             el.Save(XmlFileName);
@@ -153,6 +172,8 @@ namespace FlowerMaster.ViewModel
                 this.Height = Convert.ToDouble(dict[nameof(this.Height)]);
                 this.AutoClick_X = Convert.ToInt32(dict[nameof(this.AutoClick_X)]);
                 this.AutoClick_Y = Convert.ToInt32(dict[nameof(this.AutoClick_Y)]);
+                this.DpiX = Convert.ToDouble(dict[nameof(this.DpiX)]);
+                this.DpiY = Convert.ToDouble(dict[nameof(this.DpiY)]);
 
                 ret = true;
             }

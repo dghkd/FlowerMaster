@@ -16,7 +16,8 @@
                       Loaded="MetroWindow_Loaded"
                       Closing="MetroWindow_Closing"
                       StateChanged="MetroWindow_StateChanged"
-                      WindowStartupLocation="CenterScreen">
+                      WindowStartupLocation="CenterScreen"
+                      Activated="MetroWindow_Activated">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button x:Name="btnTopMost"
@@ -61,7 +62,6 @@
                                                      IsBrowserInitializedChanged="mainWeb_IsBrowserInitializedChanged">
                         </cefSharp:ChromiumWebBrowser>
                     </WindowsFormsHost>
-
                     <Button x:Name="btnNews"
                             Grid.Column="1"
                             Height="38"

@@ -344,7 +344,19 @@ namespace FlowerMaster
             HttpProxy.Shutdown();
             HttpProxy.Startup(DataUtil.Config.localProxyPort, false, false);
             HttpProxy.AfterSessionComplete += s => Task.Run(() => ProcessData(s));
+            HttpProxy.AfterReadRequestHeaders += HttpProxy_AfterReadRequestHeaders;
+            HttpProxy.AfterReadResponseHeaders += HttpProxy_AfterReadResponseHeaders;
             ApplyProxySettings();
+        }
+
+        private void HttpProxy_AfterReadResponseHeaders(HttpResponse obj)
+        {
+            Debug.WriteLine($"Response:{obj.StatusLine}");
+        }
+
+        private void HttpProxy_AfterReadRequestHeaders(HttpRequest obj)
+        {
+            Debug.WriteLine($"RequestHeaders:{obj}");
         }
 
         /// <summary>
@@ -373,9 +385,17 @@ namespace FlowerMaster
         {
             WinFormHost.Width = _gameFrameVM.Width;
             WinFormHost.Height = _gameFrameVM.Height;
-            mainWeb.Width = Convert.ToInt32(_gameFrameVM.Width);
-            mainWeb.Height = Convert.ToInt32(_gameFrameVM.Height);
-            mainWeb.SetZoomLevel(_gameFrameVM.ZoomLevel);
+            using (Graphics graphics = Graphics.FromHwnd(IntPtr.Zero))
+            {
+                float dpiX = graphics.DpiX;
+                float dpiY = graphics.DpiY;
+                mainWeb.Width = Convert.ToInt32(_gameFrameVM.Width * (dpiX / 96.0));
+                mainWeb.Height = Convert.ToInt32(_gameFrameVM.Height * (dpiY / 96.0));
+
+                mainWeb.SetZoomLevel(_gameFrameVM.ZoomLevel);
+            }
+            //mainWeb.Width = Convert.ToInt32(_gameFrameVM.Width);
+            //mainWeb.Height = Convert.ToInt32(_gameFrameVM.Height);
 
             autoClickX = _gameFrameVM.AutoClick_X;
             autoClickY = _gameFrameVM.AutoClick_Y;
@@ -392,7 +412,7 @@ namespace FlowerMaster
                 double oldHeight = mainWeb.Height;
                 float dpiX = graphics.DpiX;
                 float dpiY = graphics.DpiY;
-                _gameFrameVM.Width *= (96.0 / dpiX);
+                _gameFrameVM.Width *= (_gameFrameVM.DpiX / dpiX);
                 //Auto calculate height and mainWeb size on ApplyWebBrowserSize.
                 //_gameFrameVM.Height *= (96.0 / dpiY);
                 //mainWeb.Width = Convert.ToInt32(mainWeb.Width * (96.0 / dpiX));
@@ -402,6 +422,9 @@ namespace FlowerMaster
                 this.Height = _gameFrameVM.Height + 100;
                 this.Top = (SystemParameters.WorkArea.Height - this.Height) / 2 + SystemParameters.WorkArea.Top;
                 this.Left = (SystemParameters.WorkArea.Width - this.Width) / 2 + SystemParameters.WorkArea.Left;
+
+                _gameFrameVM.DpiX = dpiX;
+                _gameFrameVM.DpiY = dpiY;
             }
         }
 
@@ -626,7 +649,6 @@ namespace FlowerMaster
                 y = 475;
                 autoGoLastConf--;
             }
-
             mainWeb.GetBrowser().GetHost().SendMouseClickEvent(x, y, MouseButtonType.Left, false, 1, CefEventFlags.None);
             SpinWait.SpinUntil(() => false, 10);
             mainWeb.GetBrowser().GetHost().SendMouseClickEvent(x, y, MouseButtonType.Left, true, 1, CefEventFlags.None);
@@ -665,6 +687,7 @@ namespace FlowerMaster
                 btnMute.Visibility = Visibility.Visible;
                 btnUnMute.Visibility = Visibility.Hidden;
             }
+            mainWeb.GetBrowserHost().SetAudioMuted(SoundHelper.isMute);
         }
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
@@ -759,7 +782,7 @@ namespace FlowerMaster
         private void mainWeb_FrameLoadEnd(object sender, CefSharp.FrameLoadEndEventArgs e)
         {
             bool bRet = CefSharpHelper.TakeoutGameFrame(mainWeb);
-            if (bRet)
+            if (bRet && !styleSheetApplied)
             {
                 styleSheetApplied = true;
                 MiscHelper.AddLog("抽取Flash样式应用成功！", MiscHelper.LogType.System);
@@ -848,7 +871,9 @@ namespace FlowerMaster
 
         public void btnAuto_Click(object sender, RoutedEventArgs e)
         {
-            if (!DataUtil.Game.isOnline) return;
+            //if (!DataUtil.Game.isOnline) return;
+            DataUtil.Game.isOnline = true;
+            DataUtil.Game.canAuto = true;
             if (webHandle == IntPtr.Zero)
             {
                 //需調用UI主執行緒才能使用mainWeb.Handle值
@@ -979,6 +1004,10 @@ namespace FlowerMaster
         {
             grid1.Children.Add(WinFormHost);
             this.Visibility = Visibility.Visible;
+        }
+
+        private void MetroWindow_Activated(object sender, EventArgs e)
+        {
         }
     }
 }
